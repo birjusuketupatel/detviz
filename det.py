@@ -57,7 +57,7 @@ def sign(Q):
     
     k = 0
     
-    for i in range(0, n-1):
+    for i in range(0, n):
         if np.allclose(Q[:, i], I[:, i]):
             continue
         
@@ -66,13 +66,12 @@ def sign(Q):
         
         k += 1
     
-    # if Q[n-1,n-1] is -1, 1 more reflection is needed to bring Q to the standard normal basis
     # each reflection inverts space, so flips sign of determinant
     # sign = (-1)^k, k = number of reflections
     # even number of reflections -> sign = +1
     # odd number of reflections -> sign = -1
     
-    return ((-1) ** k) * Q[n-1, n-1]
+    return ((-1) ** k)
 
 def my_det(A):
     # computes determinant of a square matrix

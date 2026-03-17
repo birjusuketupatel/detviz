@@ -1,6 +1,6 @@
 import numpy as np
 import pyvista as pv
-from det import *
+
 
 def parallelepiped_vertices(A):
     a1, a2, a3 = A[:, 0], A[:, 1], A[:, 2]
@@ -15,7 +15,9 @@ def parallelepiped_vertices(A):
         a1 + a2 + a3
     ], dtype=float)
 
+
 def add_parallelepiped_edges(plotter, V):
+    actors = []
     edges = [
         (0, 1), (0, 2), (0, 3),
         (1, 4), (1, 5),
@@ -23,25 +25,25 @@ def add_parallelepiped_edges(plotter, V):
         (3, 5), (3, 6),
         (4, 7), (5, 7), (6, 7)
     ]
-
     for i, j in edges:
         pts = np.array([V[i], V[j]])
-        plotter.add_lines(pts, color="gray", width=0.5)
+        actors.append(plotter.add_lines(pts, color="gray", width=1.5))
+    return actors
+
 
 def add_vector(plotter, start, direction, color="red"):
     thickness = 0.06
     tip_scale = 2.5
     tip_length = 0.35
-    
+
     start = np.asarray(start, dtype=float)
     direction = np.asarray(direction, dtype=float)
 
     length = np.linalg.norm(direction)
     if np.isclose(length, 0):
-        return
+        return []
 
     u = direction / length
-
     shaft_radius = thickness
     tip_radius = thickness * tip_scale
 
@@ -58,8 +60,9 @@ def add_vector(plotter, start, direction, color="red"):
         resolution=40
     )
 
-    plotter.add_mesh(shaft, color=color)
-    plotter.add_mesh(tip, color=color)
+    shaft_actor = plotter.add_mesh(shaft, color=color)
+    tip_actor = plotter.add_mesh(tip, color=color)
+    return [shaft_actor, tip_actor]
 
 
 def draw_axis(plotter, direction, length):
@@ -69,93 +72,41 @@ def draw_axis(plotter, direction, length):
         -direction * length,
         direction * length
     ])
-    plotter.add_lines(pts, color="gray", width=1.5)
+    return plotter.add_lines(pts, color="gray", width=1.5)
 
-def plot_parallelepiped(A):
-    # plot parallelipiped
-    V = parallelepiped_vertices(A)
-    
-    faces = np.hstack([
-        [4, 0, 1, 4, 2],
-        [4, 0, 1, 5, 3],
-        [4, 0, 2, 6, 3],
-        [4, 1, 4, 7, 5],
-        [4, 2, 4, 7, 6],
-        [4, 3, 5, 7, 6]
-    ])
-    
-    mesh = pv.PolyData(V, faces)
-    plotter = pv.Plotter()
-    plotter.enable_anti_aliasing("msaa", multi_samples=16)
 
-    plotter.add_mesh(mesh, color="lightblue", opacity=0.4, show_edges=True, lighting=False)
-    
-    add_parallelepiped_edges(plotter, V)
-    
-    # plot column vectors of A that span parallelipiped
-    span_colors = ["red", "green", "blue"]
-    span_labels = ["a1", "a2", "a3"]
+def qr_decomp(A):
+    Q = []
+    R = []
 
-    max_extent = max(1.0, np.max(np.abs(V)))
-    axis_len = 1.25 * max_extent
-    
-    for i in range(3):
-        add_vector(
-            plotter,
-            start=(0, 0, 0),
-            direction=A[:, i],
-            color=span_colors[i]
-        )
-        plotter.add_point_labels(
-            [A[:, i]],
-            [span_labels[i]],
-            font_size=18,
-            point_size=0,
-            text_color=span_colors[i],
-            shape_opacity=0,
-            show_points=False
-        )
+    for col in A.T:
+        v = col.copy()
+        r_col = []
 
-    # plot axes
-    draw_axis(plotter, [1, 0, 0], axis_len)
-    draw_axis(plotter, [0, 1, 0], axis_len)
-    draw_axis(plotter, [0, 0, 1], axis_len)
+        for q in Q:
+            a = np.dot(v, q)
+            r_col.append(a)
+            v = v - a * q
 
-    plotter.add_point_labels(
-        [
-            [axis_len, 0, 0],
-            [0, axis_len, 0],
-            [0, 0, axis_len]
-        ],
-        ["x", "y", "z"],
-        font_size=18,
-        point_size=0,
-        text_color="black",
-        shape_opacity=0,
-        show_points=False
-    )
+        r_jj = np.linalg.norm(v)
+        if np.isclose(r_jj, 0):
+            raise ValueError("matrix is not full rank")
 
-    # plot origin
-    plotter.add_mesh(
-        pv.Sphere(radius=0.1, center=(0, 0, 0)),
-        color="black"
-    )
-    
-    plotter.camera_position = "xz"
-    plotter.camera.zoom(1.5)
-    plotter.show()
-    
-if __name__ == "__main__":
-    A = np.array([
-        [1.0, 7.0, -2.0],
-        [1.0, 7.0, -4.0],
-        [1.0, -8.0, 3.0]
-    ])
-    
-    Q, R = qr_decomp(A)
-    
-    # find matrices found after each step of Gram-Schmidt
-    
+        r_col.append(r_jj)
+        q_next = v / r_jj
+        Q.append(q_next)
+
+        while len(r_col) < A.shape[1]:
+            r_col.append(0.0)
+
+        R.append(r_col)
+
+    Q = np.column_stack(Q)
+    R = np.array(R).T
+    return Q, R
+
+
+def gram_schmidt_step_matrices(Q, R):
     R0 = R.copy()
 
     R1 = R.copy()
@@ -167,9 +118,127 @@ if __name__ == "__main__":
     R3 = R2.copy()
     R3[1, 2] = 0.0
 
-    A0 = Q @ R0
-    A1 = Q @ R1
-    A2 = Q @ R2
-    A3 = Q @ R3
+    return [
+        ("Original", Q @ R0),
+        ("Remove a1 from a2", Q @ R1),
+        ("Remove a1 from a3", Q @ R2),
+        ("Remove a2 from a3", Q @ R3),
+    ]
 
-    plot_parallelepiped(A3)
+
+def step_viewer(steps):
+    V0 = parallelepiped_vertices(steps[0][1])
+    max_extent = max(1.0, np.max(np.abs(V0)))
+    axis_len = 1.25 * max_extent
+
+    plotter = pv.Plotter()
+    plotter.enable_anti_aliasing("msaa", multi_samples=16)
+
+    # static scene
+    draw_axis(plotter, [1, 0, 0], axis_len)
+    draw_axis(plotter, [0, 1, 0], axis_len)
+    draw_axis(plotter, [0, 0, 1], axis_len)
+
+    plotter.add_point_labels(
+        [[axis_len, 0, 0], [0, axis_len, 0], [0, 0, axis_len]],
+        ["x", "y", "z"],
+        font_size=18,
+        text_color="black",
+        shape_opacity=0,
+        show_points=False
+    )
+
+    plotter.add_mesh(pv.Sphere(radius=0.1, center=(0, 0, 0)), color="black")
+    plotter.camera_position = "xz"
+    plotter.camera.zoom(1.5)
+
+    state = {"idx": 0}
+    dynamic_actors = []
+    span_colors = ["red", "green", "blue"]
+    span_labels = ["a1", "a2", "a3"]
+
+    def clear_dynamic():
+        nonlocal dynamic_actors
+        for actor in dynamic_actors:
+            plotter.remove_actor(actor)
+        dynamic_actors = []
+
+    def draw_current_step():
+        clear_dynamic()
+
+        title, A = steps[state["idx"]]
+        V = parallelepiped_vertices(A)
+
+        faces = np.hstack([
+            [4, 0, 1, 4, 2],
+            [4, 0, 1, 5, 3],
+            [4, 0, 2, 6, 3],
+            [4, 1, 4, 7, 5],
+            [4, 2, 4, 7, 6],
+            [4, 3, 5, 7, 6]
+        ])
+
+        mesh = pv.PolyData(V, faces)
+        dynamic_actors.append(
+            plotter.add_mesh(mesh, color="lightblue", opacity=0.4, lighting=False)
+        )
+
+        dynamic_actors.extend(add_parallelepiped_edges(plotter, V))
+
+        for i in range(3):
+            dynamic_actors.extend(
+                add_vector(plotter, (0, 0, 0), A[:, i], color=span_colors[i])
+            )
+
+            direction = A[:, i] / np.linalg.norm(A[:, i])
+            label_pos = A[:, i] + 0.4 * direction
+
+            dynamic_actors.append(
+                plotter.add_point_labels(
+                    [label_pos],
+                    [span_labels[i]],
+                    font_size=18,
+                    text_color=span_colors[i],
+                    shape_opacity=0,
+                    show_points=False
+                )
+            )
+
+        plotter.add_text(
+            f"Step {state['idx'] + 1}/{len(steps)}: {title}",
+            position="upper_left",
+            font_size=12,
+            name="step_text"
+        )
+
+        plotter.render()
+
+    def next_step():
+        if state["idx"] < len(steps) - 1:
+            state["idx"] += 1
+            draw_current_step()
+
+    def prev_step():
+        if state["idx"] > 0:
+            state["idx"] -= 1
+            draw_current_step()
+
+    plotter.add_key_event("Right", next_step)
+    plotter.add_key_event("n", next_step)
+    plotter.add_key_event("Left", prev_step)
+    plotter.add_key_event("b", prev_step)
+
+    draw_current_step()
+    plotter.show()
+
+
+if __name__ == "__main__":
+    A = np.array([
+        [1.0, 7.0, -2.0],
+        [1.0, 7.0, -4.0],
+        [1.0, -8.0, 3.0]
+    ])
+
+    Q, R = qr_decomp(A)
+    steps = gram_schmidt_step_matrices(Q, R)
+    step_viewer(steps)
