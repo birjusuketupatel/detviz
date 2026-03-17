@@ -1,5 +1,6 @@
 import numpy as np
 import pyvista as pv
+from det import *
 
 def parallelepiped_vertices(A):
     a1, a2, a3 = A[:, 0], A[:, 1], A[:, 2]
@@ -134,31 +135,41 @@ def plot_parallelepiped(A):
         show_points=False
     )
 
-    # plot bounding cube
-    cube = pv.Cube(
-        center=(0, 0, 0),
-        x_length=2.25 * axis_len,
-        y_length=2.25 * axis_len,
-        z_length=2.25 * axis_len
-    )
-    plotter.add_mesh(cube, style="wireframe", color="lightgray", opacity=1.0)
-
     # plot origin
     plotter.add_mesh(
         pv.Sphere(radius=0.1, center=(0, 0, 0)),
         color="black"
     )
-
-    plotter.add_axes()
-    plotter.camera_position = "iso"
+    
+    plotter.camera_position = "xz"
+    plotter.camera.zoom(1.5)
     plotter.show()
     
-
 if __name__ == "__main__":
     A = np.array([
         [1.0, 7.0, -2.0],
         [1.0, 7.0, -4.0],
         [1.0, -8.0, 3.0]
     ])
+    
+    Q, R = qr_decomp(A)
+    
+    # find matrices found after each step of Gram-Schmidt
+    
+    R0 = R.copy()
 
-    plot_parallelepiped(A)
+    R1 = R.copy()
+    R1[0, 1] = 0.0
+
+    R2 = R1.copy()
+    R2[0, 2] = 0.0
+
+    R3 = R2.copy()
+    R3[1, 2] = 0.0
+
+    A0 = Q @ R0
+    A1 = Q @ R1
+    A2 = Q @ R2
+    A3 = Q @ R3
+
+    plot_parallelepiped(A3)
