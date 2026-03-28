@@ -24,7 +24,10 @@ const VECTOR_COLORS = [0xd1495b, 0x2c7a55, 0x2f6db5];
 
 const ui = {
   grid: document.getElementById("matrix-grid"),
+  volumeValue: document.getElementById("volume-value"),
   determinantValue: document.getElementById("determinant-value"),
+  orientationValue: document.getElementById("orientation-value"),
+  lengthsValue: document.getElementById("lengths-value"),
   stepValue: document.getElementById("step-value"),
   stepMessage: document.getElementById("step-message"),
   applyButton: document.getElementById("apply-button"),
@@ -455,6 +458,24 @@ function formatNumber(value) {
   return Number(rounded.toFixed(4)).toString();
 }
 
+function formatTupleNumber(value) {
+  const rounded = Math.abs(value) < 1e-10 ? 0 : value;
+  return rounded.toFixed(1);
+}
+
+function currentOrientationLabel() {
+  const reflectionsApplied = appState.steps
+    .slice(0, appState.currentIndex + 1)
+    .filter((step) => step.title.startsWith("Reflect "))
+    .length;
+
+  return reflectionsApplied % 2 === 0 ? "Standard" : "Inverted";
+}
+
+function currentLengths() {
+  return [0, 1, 2].map((i) => norm(column(appState.currentMatrix, i)));
+}
+
 const appState = {
   steps: [],
   determinant: 0,
@@ -496,14 +517,15 @@ function getMatrixInputs() {
 
 function updateStatus() {
   const step = appState.steps[appState.currentIndex];
-  ui.determinantValue.textContent = formatNumber(appState.determinant);
+  const lengths = currentLengths();
   ui.stepValue.textContent = `${appState.currentIndex + 1} / ${appState.steps.length}`;
-
-  if (appState.rankDeficient) {
-    ui.stepMessage.textContent = `Step ${appState.currentIndex + 1}: ${step.title}. The determinant is 0, and the animated QR/Householder walkthrough is disabled because the spanning vectors are linearly dependent.`;
-  } else {
-    ui.stepMessage.textContent = `Step ${appState.currentIndex + 1}: ${step.title}.`;
-  }
+  ui.stepMessage.textContent = appState.rankDeficient
+    ? `${step.title}. The determinant is 0, and the animated walkthrough is disabled because the spanning vectors are linearly dependent.`
+    : step.title;
+  ui.volumeValue.textContent = formatNumber(Math.abs(appState.determinant));
+  ui.orientationValue.textContent = currentOrientationLabel();
+  ui.determinantValue.textContent = formatNumber(appState.determinant);
+  ui.lengthsValue.textContent = `(${formatTupleNumber(lengths[0])}, ${formatTupleNumber(lengths[1])}, ${formatTupleNumber(lengths[2])})`;
 
   ui.prevButton.disabled = appState.currentIndex === 0;
   ui.nextButton.disabled = appState.currentIndex >= appState.steps.length - 1;

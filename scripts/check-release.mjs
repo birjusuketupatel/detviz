@@ -37,7 +37,23 @@ function testDeterminantAndSteps() {
   assert.equal(result.rankDeficient, false, "example matrix should be full rank");
   assert.equal(result.steps.length, 11, "expected 11 visualization steps for example matrix");
   assert.equal(result.steps[0].title, "Original");
-  assert.equal(result.steps.at(-1).title, "Done");
+  assert.deepEqual(
+    result.steps.map((step) => step.title),
+    [
+      "Original",
+      "Remove a1 from a2",
+      "Remove a1 from a3",
+      "Remove a2 from a3",
+      "Place mirror",
+      "Reflect a1 onto x",
+      "Place mirror",
+      "Reflect a2 onto y",
+      "Place mirror",
+      "Reflect a3 onto z",
+      "Done"
+    ],
+    "step titles should match the expected walkthrough"
+  );
 }
 
 function testSingularMatrixFallback() {
@@ -65,6 +81,22 @@ function testQrDiagonalVolume() {
   approxEqual(Q[1][1], 1, 1e-6, "Q should preserve y-axis");
   approxEqual(Q[2][2], 1, 1e-6, "Q should preserve z-axis");
   approxEqual(R[0][0] * R[1][1] * R[2][2], 120, 1e-6, "volume mismatch");
+}
+
+function testOrthogonalBasisSkipsNoOpGramSchmidtSteps() {
+  const A = [
+    [4, 0, 0],
+    [0, 5, 0],
+    [0, 0, 6]
+  ];
+
+  const result = buildStepSequence(A);
+  assert.equal(result.rankDeficient, false, "diagonal matrix should be full rank");
+  assert.deepEqual(
+    result.steps.map((step) => step.title),
+    ["Original"],
+    "orthogonal basis should not emit no-op Gram-Schmidt or reflection steps"
+  );
 }
 
 function testHouseholderPlaneNormal() {
@@ -116,6 +148,7 @@ const tests = [
   ["determinant and step sequence", testDeterminantAndSteps],
   ["singular matrix fallback", testSingularMatrixFallback],
   ["qr diagonal volume", testQrDiagonalVolume],
+  ["orthogonal basis skips no-op steps", testOrthogonalBasisSkipsNoOpGramSchmidtSteps],
   ["householder plane normal", testHouseholderPlaneNormal],
   ["static page wiring", testStaticPageWiring],
   ["column extraction", testGeometryColumnsAccessible]

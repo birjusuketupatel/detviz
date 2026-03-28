@@ -32,11 +32,11 @@
   <div class="shell">
     <section class="panel controls">
       <div class="panel-header">
-        <h1>detviz</h1>
+        <h1><a href="./" class="title-link">detviz</a></h1>
       </div>
 
       <div class="matrix-card">
-        <p class="hint formula">\(\det(A)=\det(Q)\cdot\det(R)\)</p>
+        <p class="hint formula">\(\det(A)\)</p>
         <div class="matrix-column-labels" aria-hidden="true">
           <span class="column-label column-a1">a1</span>
           <span class="column-label column-a2">a2</span>
@@ -49,17 +49,14 @@
         <button id="apply-button" type="button">Plot</button>
       </div>
 
-      <div class="status-card">
-        <div class="status-row">
-          <span class="status-label">Determinant</span>
-          <span id="determinant-value" class="status-value">0</span>
-        </div>
+      <div class="status-card step-card">
         <div class="status-row">
           <span class="status-label">Step</span>
           <span id="step-value" class="status-value">-</span>
         </div>
         <div class="status-row message-row">
-          <span id="step-message">Enter a matrix and apply it to generate the animation.</span>
+          <span class="status-label">Action</span>
+          <span id="step-message" class="status-value">Start</span>
         </div>
       </div>
 
@@ -86,6 +83,27 @@
           </button>
         </div>
         <div id="label-layer" class="label-layer" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <section class="panel metrics-panel">
+      <div class="status-card">
+        <div class="status-row">
+          <span class="status-label">Determinant</span>
+          <span id="determinant-value" class="status-value">0</span>
+        </div>
+        <div class="status-row">
+          <span class="status-label">Orientation</span>
+          <span id="orientation-value" class="status-value">Standard</span>
+        </div>
+        <div class="status-row">
+          <span class="status-label">Volume</span>
+          <span id="volume-value" class="status-value">0</span>
+        </div>
+        <div class="status-row">
+          <span class="status-label">Length(a1, a2, a3)</span>
+          <span id="lengths-value" class="status-value lengths-value"></span>
+        </div>
       </div>
     </section>
   </div>

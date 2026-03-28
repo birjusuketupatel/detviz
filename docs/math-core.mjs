@@ -209,21 +209,29 @@ export function symmetricEigenvectorForMinusOne(H) {
 
 export function gramSchmidtStepMatrices(Q, R) {
   const R0 = cloneMatrix(R);
-  const R1 = cloneMatrix(R);
-  R1[0][1] = 0;
-
-  const R2 = cloneMatrix(R1);
-  R2[0][2] = 0;
-
-  const R3 = cloneMatrix(R2);
-  R3[1][2] = 0;
-
-  return [
-    { title: "Original", A: matrixMultiply(Q, R0), H: null, mode: "full" },
-    { title: "Remove a1 from a2", A: matrixMultiply(Q, R1), H: null, mode: "full" },
-    { title: "Remove a1 from a3", A: matrixMultiply(Q, R2), H: null, mode: "full" },
-    { title: "Remove a2 from a3", A: matrixMultiply(Q, R3), H: null, mode: "full" }
+  const steps = [
+    { title: "Original", A: matrixMultiply(Q, R0), H: null, mode: "full" }
   ];
+
+  let currentR = cloneMatrix(R);
+  const eliminations = [
+    { row: 0, col: 1, title: "Remove a1 from a2" },
+    { row: 0, col: 2, title: "Remove a1 from a3" },
+    { row: 1, col: 2, title: "Remove a2 from a3" }
+  ];
+
+  eliminations.forEach(({ row, col, title }) => {
+    if (Math.abs(currentR[row][col]) <= 1e-8) {
+      return;
+    }
+
+    const nextR = cloneMatrix(currentR);
+    nextR[row][col] = 0;
+    steps.push({ title, A: matrixMultiply(Q, nextR), H: null, mode: "full" });
+    currentR = nextR;
+  });
+
+  return steps;
 }
 
 export function householderStepMatrices(Q, R) {
@@ -247,14 +255,15 @@ export function householderStepMatrices(Q, R) {
       }
     }
 
-    reflections.push({ title: `Reflect a${i + 1} onto axis`, H });
+    reflections.push({ axisIndex: i, H });
   }
 
   const steps = [];
-  reflections.forEach(({ title, H }) => {
-    steps.push({ title: `Show mirror for ${title.toLowerCase()}`, A: cloneMatrix(box), H, mode: "mirror" });
+  reflections.forEach(({ axisIndex, H }) => {
+    const axisLabels = ["x", "y", "z"];
+    steps.push({ title: "Place mirror", A: cloneMatrix(box), H, mode: "mirror" });
     box = matrixMultiply(H, box);
-    steps.push({ title, A: cloneMatrix(box), H, mode: "full" });
+    steps.push({ title: `Reflect a${axisIndex + 1} onto ${axisLabels[axisIndex]}`, A: cloneMatrix(box), H, mode: "full" });
   });
 
   if (steps.length > 0) {
