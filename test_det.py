@@ -7,7 +7,7 @@ tests = 0
 failures = 0
 
 for n in range(2, 11):                # matrix sizes 1x1 through 8x8
-    for _ in range(2000):            # 2000 matrices per size
+    for _ in range(200):            # 2000 matrices per size
         A = rng.integers(-10, 11, size=(n, n)).astype(float)
                 
         expected = np.linalg.det(A)

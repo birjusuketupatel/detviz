@@ -1,6 +1,6 @@
 import numpy as np
 import pyvista as pv
-
+from det import *
 
 def parallelepiped_vertices(A):
     a1, a2, a3 = A[:, 0], A[:, 1], A[:, 2]
@@ -73,38 +73,7 @@ def draw_axis(plotter, direction, length):
         direction * length
     ])
     return plotter.add_lines(pts, color="gray", width=1.5)
-
-
-def qr_decomp(A):
-    Q = []
-    R = []
-
-    for col in A.T:
-        v = col.copy()
-        r_col = []
-
-        for q in Q:
-            a = np.dot(v, q)
-            r_col.append(a)
-            v = v - a * q
-
-        r_jj = np.linalg.norm(v)
-        if np.isclose(r_jj, 0):
-            raise ValueError("matrix is not full rank")
-
-        r_col.append(r_jj)
-        q_next = v / r_jj
-        Q.append(q_next)
-
-        while len(r_col) < A.shape[1]:
-            r_col.append(0.0)
-
-        R.append(r_col)
-
-    Q = np.column_stack(Q)
-    R = np.array(R).T
-    return Q, R
-
+    
 
 def gram_schmidt_step_matrices(Q, R):
     R0 = R.copy()
@@ -125,6 +94,38 @@ def gram_schmidt_step_matrices(Q, R):
         ("Remove a2 from a3", Q @ R3),
     ]
 
+
+def householder_step_matrices(Q, R):
+    box = Q @ np.diag(np.diag(R))
+    
+    # find Householder matrices that aligns each vector in Q to i-hat, j-hat, and k-hat
+    reflections = []
+    
+    Q = Q.copy()
+    n = Q.shape[0]
+    
+    I = np.eye(n)
+    
+    k = 0
+    
+    for i in range(0, n):
+        if np.allclose(Q[:, i], I[:, i]):
+            continue
+        
+        H = householder_matrix(I[:, i], Q[:, i])
+        Q = H @ Q
+        
+        k += 1
+        reflections.append(("reflect a{} onto axis".format(i + 1), H))
+    
+    steps = []
+        
+    for msg, H in reflections:
+        steps.append((msg, H @ box))
+        box = H @ box
+    
+    return steps
+    
 
 def step_viewer(steps):
     V0 = parallelepiped_vertices(steps[0][1])
@@ -224,9 +225,7 @@ def step_viewer(steps):
             draw_current_step()
 
     plotter.add_key_event("Right", next_step)
-    plotter.add_key_event("n", next_step)
     plotter.add_key_event("Left", prev_step)
-    plotter.add_key_event("b", prev_step)
 
     draw_current_step()
     plotter.show()
@@ -240,5 +239,9 @@ if __name__ == "__main__":
     ])
 
     Q, R = qr_decomp(A)
-    steps = gram_schmidt_step_matrices(Q, R)
-    step_viewer(steps)
+    
+    volume= gram_schmidt_step_matrices(Q, R)
+    
+    orientation = householder_step_matrices(Q, R)
+    
+    step_viewer(volume + orientation)
