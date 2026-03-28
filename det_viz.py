@@ -123,6 +123,9 @@ def householder_step_matrices(Q, R):
         box = H @ box
         steps.append((msg, box, H, "full"))
     
+    if steps:
+        steps.append(("Done", box, None, "full"))
+
     return steps
     
 
@@ -161,6 +164,7 @@ def step_viewer(steps):
     vector_actors = []
     label_actors = []
     mirror_actors = []
+    mirror_state = {"key": None}
     span_colors = ["red", "green", "blue"]
     span_labels = ["a1", "a2", "a3"]
 
@@ -246,11 +250,16 @@ def step_viewer(steps):
     def draw_current_step():
         nonlocal box_mesh, edge_mesh
         title, A, H, mode = steps[state["idx"]]
+        desired_mirror_key = id(H) if H is not None else None
 
         if mode == "full" and H is None:
             clear_box()
-        if mode == "mirror" or H is None:
+        if desired_mirror_key is None:
             clear_actors(mirror_actors)
+            mirror_state["key"] = None
+        elif mode == "mirror" and mirror_state["key"] != desired_mirror_key:
+            clear_actors(mirror_actors)
+            mirror_state["key"] = None
 
         V = parallelepiped_vertices(A)
 
@@ -259,8 +268,10 @@ def step_viewer(steps):
                 build_box(V, A)
             else:
                 update_box(V, A)
+        elif mode == "mirror" and H is not None:
+            update_box(V, A)
 
-        if H is not None and (mode == "mirror" or not mirror_actors):
+        if H is not None and mirror_state["key"] != desired_mirror_key:
             eigvals, eigvecs = np.linalg.eigh(H)
             normal = eigvecs[:, np.argmin(eigvals)]
             plane = pv.Plane(
@@ -279,6 +290,7 @@ def step_viewer(steps):
                     lighting=False
                 )
             )
+            mirror_state["key"] = desired_mirror_key
 
         plotter.add_text(
             f"Step {state['idx'] + 1}/{len(steps)}: {title}",
