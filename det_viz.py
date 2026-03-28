@@ -16,8 +16,7 @@ def parallelepiped_vertices(A):
     ], dtype=float)
 
 
-def add_parallelepiped_edges(plotter, V):
-    actors = []
+def parallelepiped_edge_mesh(V):
     edges = [
         (0, 1), (0, 2), (0, 3),
         (1, 4), (1, 5),
@@ -25,23 +24,22 @@ def add_parallelepiped_edges(plotter, V):
         (3, 5), (3, 6),
         (4, 7), (5, 7), (6, 7)
     ]
-    for i, j in edges:
-        pts = np.array([V[i], V[j]])
-        actors.append(plotter.add_lines(pts, color="gray", width=1.5))
-    return actors
+    lines = np.hstack([np.array([2, i, j]) for i, j in edges]).astype(np.int64)
+    return pv.PolyData(V, lines=lines)
 
 
-def add_vector(plotter, start, direction, color="red"):
+def vector_mesh(start, direction):
     thickness = 0.06
     tip_scale = 2.5
     tip_length = 0.35
+    resolution = 40
 
     start = np.asarray(start, dtype=float)
     direction = np.asarray(direction, dtype=float)
 
     length = np.linalg.norm(direction)
     if np.isclose(length, 0):
-        return []
+        return None
 
     u = direction / length
     shaft_radius = thickness
@@ -51,18 +49,16 @@ def add_vector(plotter, start, direction, color="red"):
     shaft_end = start + u * (length - actual_tip_length)
     tip_center = shaft_end + u * (actual_tip_length / 2.0)
 
-    shaft = pv.Line(start, shaft_end).tube(radius=shaft_radius)
+    shaft = pv.Line(start, shaft_end).tube(radius=shaft_radius, n_sides=resolution)
     tip = pv.Cone(
         center=tip_center,
         direction=u,
         height=actual_tip_length,
         radius=tip_radius,
-        resolution=40
+        resolution=resolution
     )
 
-    shaft_actor = plotter.add_mesh(shaft, color=color)
-    tip_actor = plotter.add_mesh(tip, color=color)
-    return [shaft_actor, tip_actor]
+    return shaft.merge(tip)
 
 
 def draw_axis(plotter, direction, length):
@@ -88,10 +84,10 @@ def gram_schmidt_step_matrices(Q, R):
     R3[1, 2] = 0.0
 
     return [
-        ("Original", Q @ R0),
-        ("Remove a1 from a2", Q @ R1),
-        ("Remove a1 from a3", Q @ R2),
-        ("Remove a2 from a3", Q @ R3),
+        ("Original", Q @ R0, None, "full"),
+        ("Remove a1 from a2", Q @ R1, None, "full"),
+        ("Remove a1 from a3", Q @ R2, None, "full"),
+        ("Remove a2 from a3", Q @ R3, None, "full"),
     ]
 
 
@@ -119,10 +115,13 @@ def householder_step_matrices(Q, R):
         reflections.append(("reflect a{} onto axis".format(i + 1), H))
     
     steps = []
-        
+
     for msg, H in reflections:
-        steps.append((msg, H @ box))
+        # First show mirror plane for the upcoming reflection without redrawing the box
+        steps.append((f"Show mirror for {msg}", box, H, "mirror"))
+        # Then show the reflected box
         box = H @ box
+        steps.append((msg, box, H, "full"))
     
     return steps
     
@@ -154,22 +153,54 @@ def step_viewer(steps):
     plotter.camera.zoom(1.5)
 
     state = {"idx": 0}
-    dynamic_actors = []
+    box_mesh = None
+    edge_mesh = None
+    vector_meshes = []
+    box_actor = None
+    edge_actor = None
+    vector_actors = []
+    label_actors = []
+    mirror_actors = []
     span_colors = ["red", "green", "blue"]
     span_labels = ["a1", "a2", "a3"]
 
-    def clear_dynamic():
-        nonlocal dynamic_actors
-        for actor in dynamic_actors:
+    def clear_actors(actors):
+        for actor in actors:
             plotter.remove_actor(actor)
-        dynamic_actors = []
+        actors.clear()
 
-    def draw_current_step():
-        clear_dynamic()
+    def clear_box():
+        nonlocal box_mesh, edge_mesh, vector_meshes, box_actor, edge_actor, vector_actors, label_actors
+        if box_actor is not None:
+            plotter.remove_actor(box_actor)
+            box_actor = None
+        if edge_actor is not None:
+            plotter.remove_actor(edge_actor)
+            edge_actor = None
+        box_mesh = None
+        edge_mesh = None
+        vector_meshes = []
+        clear_actors(vector_actors)
+        clear_actors(label_actors)
 
-        title, A = steps[state["idx"]]
-        V = parallelepiped_vertices(A)
+    def update_labels(A):
+        clear_actors(label_actors)
+        for i in range(3):
+            direction = A[:, i] / np.linalg.norm(A[:, i])
+            label_pos = A[:, i] + 0.4 * direction
+            label_actors.append(
+                plotter.add_point_labels(
+                    [label_pos],
+                    [span_labels[i]],
+                    font_size=18,
+                    text_color=span_colors[i],
+                    shape_opacity=0,
+                    show_points=False
+                )
+            )
 
+    def build_box(V, A):
+        nonlocal box_mesh, edge_mesh, vector_meshes, box_actor, edge_actor, vector_actors
         faces = np.hstack([
             [4, 0, 1, 4, 2],
             [4, 0, 1, 5, 3],
@@ -179,29 +210,73 @@ def step_viewer(steps):
             [4, 3, 5, 7, 6]
         ])
 
-        mesh = pv.PolyData(V, faces)
-        dynamic_actors.append(
-            plotter.add_mesh(mesh, color="lightblue", opacity=0.4, lighting=False)
-        )
+        box_mesh = pv.PolyData(V, faces)
+        box_actor = plotter.add_mesh(box_mesh, color="lightblue", opacity=0.2, lighting=False)
 
-        dynamic_actors.extend(add_parallelepiped_edges(plotter, V))
+        edge_mesh = parallelepiped_edge_mesh(V)
+        edge_actor = plotter.add_mesh(edge_mesh, color="gray", line_width=1.5)
+
+        vector_meshes = []
+        clear_actors(vector_actors)
+        for i in range(3):
+            mesh = vector_mesh((0, 0, 0), A[:, i])
+            vector_meshes.append(mesh)
+            if mesh is not None:
+                vector_actors.append(plotter.add_mesh(mesh, color=span_colors[i]))
+
+        update_labels(A)
+
+    def update_box(V, A):
+        if box_mesh is None or edge_mesh is None:
+            build_box(V, A)
+            return
+
+        box_mesh.points = V
+        edge_mesh.points = V
 
         for i in range(3):
-            dynamic_actors.extend(
-                add_vector(plotter, (0, 0, 0), A[:, i], color=span_colors[i])
+            mesh = vector_mesh((0, 0, 0), A[:, i])
+            if mesh is None:
+                continue
+            if i < len(vector_meshes) and vector_meshes[i] is not None:
+                vector_meshes[i].points = mesh.points
+
+        update_labels(A)
+
+    def draw_current_step():
+        nonlocal box_mesh, edge_mesh
+        title, A, H, mode = steps[state["idx"]]
+
+        if mode == "full" and H is None:
+            clear_box()
+        if mode == "mirror" or H is None:
+            clear_actors(mirror_actors)
+
+        V = parallelepiped_vertices(A)
+
+        if mode == "full":
+            if H is None:
+                build_box(V, A)
+            else:
+                update_box(V, A)
+
+        if H is not None and (mode == "mirror" or not mirror_actors):
+            eigvals, eigvecs = np.linalg.eigh(H)
+            normal = eigvecs[:, np.argmin(eigvals)]
+            plane = pv.Plane(
+                center=(0, 0, 0),
+                direction=normal,
+                i_size=1.75*axis_len,
+                j_size=1.75*axis_len,
+                i_resolution=1,
+                j_resolution=1
             )
-
-            direction = A[:, i] / np.linalg.norm(A[:, i])
-            label_pos = A[:, i] + 0.4 * direction
-
-            dynamic_actors.append(
-                plotter.add_point_labels(
-                    [label_pos],
-                    [span_labels[i]],
-                    font_size=18,
-                    text_color=span_colors[i],
-                    shape_opacity=0,
-                    show_points=False
+            mirror_actors.append(
+                plotter.add_mesh(
+                    plane,
+                    color="silver",
+                    opacity=0.8,
+                    lighting=False
                 )
             )
 
