@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Determinant Visualizer</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+      }
+    }
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "\\(", right: "\\)", display: false }
+        ]
+      });
+    });
+  </script>
+</head>
+<body>
+  <div class="shell">
+    <section class="panel controls">
+      <div class="panel-header">
+        <h1>detviz</h1>
+      </div>
+
+      <div class="matrix-card">
+        <p class="hint formula">\(\det(A)=\det(Q)\cdot\det(R)\)</p>
+        <div class="matrix-column-labels" aria-hidden="true">
+          <span class="column-label column-a1">a1</span>
+          <span class="column-label column-a2">a2</span>
+          <span class="column-label column-a3">a3</span>
+        </div>
+        <div class="matrix-grid" id="matrix-grid" aria-label="Matrix input"></div>
+      </div>
+
+      <div class="panel-action">
+        <button id="apply-button" type="button">Plot</button>
+      </div>
+
+      <div class="status-card">
+        <div class="status-row">
+          <span class="status-label">Determinant</span>
+          <span id="determinant-value" class="status-value">0</span>
+        </div>
+        <div class="status-row">
+          <span class="status-label">Step</span>
+          <span id="step-value" class="status-value">-</span>
+        </div>
+        <div class="status-row message-row">
+          <span id="step-message">Enter a matrix and apply it to generate the animation.</span>
+        </div>
+      </div>
+
+      <div class="transport">
+        <button id="prev-button" type="button">Previous</button>
+        <button id="reset-button" type="button">Reset</button>
+        <button id="next-button" type="button">Next</button>
+      </div>
+    </section>
+
+    <section class="panel viewer-panel">
+      <div id="viewer" class="viewer" aria-label="3D determinant visualization">
+        <div class="viewer-controls">
+          <div class="zoom-control" role="group" aria-label="Zoom controls">
+            <button id="zoom-in-button" type="button" aria-label="Zoom in">+</button>
+            <button id="zoom-out-button" type="button" aria-label="Zoom out">−</button>
+          </div>
+          <button id="home-button" class="icon-button" type="button" aria-label="Reset camera">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M4 11.5 12 5l8 6.5"></path>
+              <path d="M6.5 10.5V19h11v-8.5"></path>
+              <path d="M10 19v-4.5h4V19"></path>
+            </svg>
+          </button>
+        </div>
+        <div id="label-layer" class="label-layer" aria-hidden="true"></div>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
