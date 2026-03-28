@@ -133,6 +133,7 @@ def step_viewer(steps):
     V0 = parallelepiped_vertices(steps[0][1])
     max_extent = max(1.0, np.max(np.abs(V0)))
     axis_len = 1.25 * max_extent
+    gs_frames = 40
 
     plotter = pv.Plotter()
     plotter.enable_anti_aliasing("msaa", multi_samples=16)
@@ -230,7 +231,7 @@ def step_viewer(steps):
 
         update_labels(A)
 
-    def update_box(V, A):
+    def update_box(V, A, update_label_positions=True):
         if box_mesh is None or edge_mesh is None:
             build_box(V, A)
             return
@@ -245,25 +246,23 @@ def step_viewer(steps):
             if i < len(vector_meshes) and vector_meshes[i] is not None:
                 vector_meshes[i].points = mesh.points
 
-        update_labels(A)
+        if update_label_positions:
+            update_labels(A)
 
-    def draw_current_step():
+    def draw_current_step(skip_box_rebuild=False):
         nonlocal box_mesh, edge_mesh
         title, A, H, mode = steps[state["idx"]]
         desired_mirror_key = id(H) if H is not None else None
 
-        if mode == "full" and H is None:
+        if mode == "full" and H is None and not skip_box_rebuild:
             clear_box()
-        if desired_mirror_key is None:
-            clear_actors(mirror_actors)
-            mirror_state["key"] = None
-        elif mode == "mirror" and mirror_state["key"] != desired_mirror_key:
+        if desired_mirror_key != mirror_state["key"]:
             clear_actors(mirror_actors)
             mirror_state["key"] = None
 
         V = parallelepiped_vertices(A)
 
-        if mode == "full":
+        if mode == "full" and not skip_box_rebuild:
             if H is None:
                 build_box(V, A)
             else:
@@ -301,15 +300,37 @@ def step_viewer(steps):
 
         plotter.render()
 
+    def animate_gs_transition(A_from, A_to):
+        if box_mesh is None:
+            build_box(parallelepiped_vertices(A_from), A_from)
+        for t in np.linspace(0.0, 1.0, gs_frames):
+            A = (1.0 - t) * A_from + t * A_to
+            V = parallelepiped_vertices(A)
+            update_box(V, A, update_label_positions=False)
+            plotter.render()
+        update_labels(A_to)
+
     def next_step():
         if state["idx"] < len(steps) - 1:
+            cur_title, cur_A, cur_H, cur_mode = steps[state["idx"]]
+            next_title, next_A, next_H, next_mode = steps[state["idx"] + 1]
+            skip_box_rebuild = False
+            if cur_H is None and next_H is None:
+                animate_gs_transition(cur_A, next_A)
+                skip_box_rebuild = True
             state["idx"] += 1
-            draw_current_step()
+            draw_current_step(skip_box_rebuild=skip_box_rebuild)
 
     def prev_step():
         if state["idx"] > 0:
+            cur_title, cur_A, cur_H, cur_mode = steps[state["idx"]]
+            prev_title, prev_A, prev_H, prev_mode = steps[state["idx"] - 1]
+            skip_box_rebuild = False
+            if cur_H is None and prev_H is None:
+                animate_gs_transition(cur_A, prev_A)
+                skip_box_rebuild = True
             state["idx"] -= 1
-            draw_current_step()
+            draw_current_step(skip_box_rebuild=skip_box_rebuild)
 
     plotter.add_key_event("Right", next_step)
     plotter.add_key_event("Left", prev_step)
