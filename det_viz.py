@@ -134,6 +134,8 @@ def step_viewer(steps):
     max_extent = max(1.0, np.max(np.abs(V0)))
     axis_len = 1.25 * max_extent
     gs_frames = 40
+    mirror_fade_frames = 12
+    mirror_opacity = 0.8
 
     plotter = pv.Plotter()
     plotter.enable_anti_aliasing("msaa", multi_samples=16)
@@ -164,7 +166,7 @@ def step_viewer(steps):
     edge_actor = None
     vector_actors = []
     label_actors = []
-    mirror_actors = []
+    mirror_actor = None
     mirror_state = {"key": None}
     span_colors = ["red", "green", "blue"]
     span_labels = ["a1", "a2", "a3"]
@@ -249,26 +251,41 @@ def step_viewer(steps):
         if update_label_positions:
             update_labels(A)
 
+    def fade_mirror_opacity(target_opacity):
+        nonlocal mirror_actor
+        if mirror_actor is None:
+            return
+        start_opacity = mirror_actor.GetProperty().GetOpacity()
+        if np.isclose(start_opacity, target_opacity):
+            return
+        for t in np.linspace(0.0, 1.0, mirror_fade_frames):
+            opacity = start_opacity + t * (target_opacity - start_opacity)
+            mirror_actor.GetProperty().SetOpacity(opacity)
+            plotter.render()
+
     def draw_current_step(skip_box_rebuild=False):
-        nonlocal box_mesh, edge_mesh
+        nonlocal box_mesh, edge_mesh, mirror_actor
         title, A, H, mode = steps[state["idx"]]
         desired_mirror_key = id(H) if H is not None else None
 
-        if mode == "full" and H is None and not skip_box_rebuild:
+        if mode == "full" and H is None and not skip_box_rebuild and title != "Done":
             clear_box()
         if desired_mirror_key != mirror_state["key"]:
-            clear_actors(mirror_actors)
+            if mirror_actor is not None:
+                fade_mirror_opacity(0.0)
+                plotter.remove_actor(mirror_actor)
+                mirror_actor = None
             mirror_state["key"] = None
 
         V = parallelepiped_vertices(A)
 
-        if mode == "full" and not skip_box_rebuild:
+        if mode == "full" and not skip_box_rebuild and title != "Done":
             if H is None:
                 build_box(V, A)
             else:
                 update_box(V, A)
         elif mode == "mirror" and H is not None:
-            update_box(V, A)
+            update_box(V, A, update_label_positions=False)
 
         if H is not None and mirror_state["key"] != desired_mirror_key:
             eigvals, eigvecs = np.linalg.eigh(H)
@@ -281,14 +298,13 @@ def step_viewer(steps):
                 i_resolution=1,
                 j_resolution=1
             )
-            mirror_actors.append(
-                plotter.add_mesh(
-                    plane,
-                    color="silver",
-                    opacity=0.8,
-                    lighting=False
-                )
+            mirror_actor = plotter.add_mesh(
+                plane,
+                color="silver",
+                opacity=0.0,
+                lighting=False
             )
+            fade_mirror_opacity(mirror_opacity)
             mirror_state["key"] = desired_mirror_key
 
         plotter.add_text(
