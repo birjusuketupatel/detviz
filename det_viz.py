@@ -135,7 +135,7 @@ def step_viewer(steps):
     axis_len = 1.25 * max_extent
     gs_frames = 40
     mirror_fade_frames = 12
-    mirror_opacity = 0.8
+    mirror_opacity = 0.9
 
     plotter = pv.Plotter()
     plotter.enable_anti_aliasing("msaa", multi_samples=16)
@@ -218,10 +218,10 @@ def step_viewer(steps):
         ])
 
         box_mesh = pv.PolyData(V, faces)
-        box_actor = plotter.add_mesh(box_mesh, color="lightblue", opacity=0.2, lighting=False)
+        box_actor = plotter.add_mesh(box_mesh, color="lightblue", opacity=0.5, lighting=False)
 
         edge_mesh = parallelepiped_edge_mesh(V)
-        edge_actor = plotter.add_mesh(edge_mesh, color="gray", line_width=1.5)
+        edge_actor = plotter.add_mesh(edge_mesh, color="gray", line_width=2.0)
 
         vector_meshes = []
         clear_actors(vector_actors)
@@ -293,8 +293,8 @@ def step_viewer(steps):
             plane = pv.Plane(
                 center=(0, 0, 0),
                 direction=normal,
-                i_size=1.75*axis_len,
-                j_size=1.75*axis_len,
+                i_size=1.8*axis_len,
+                j_size=1.8*axis_len,
                 i_resolution=1,
                 j_resolution=1
             )
