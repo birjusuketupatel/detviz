@@ -5,6 +5,8 @@
 
 A static browser version now lives in [`docs/`](./docs). It ports the determinant walkthrough from PyVista to client-side JavaScript with Three.js, so it can be hosted on GitHub Pages without a Python server.
 
+The original Python / PyVista implementation now lives in [`misc/`](./misc).
+
 ### Features
 
 - User-editable 3 x 3 matrix input
@@ -70,6 +72,8 @@ Minimal backend approach:
 
 ## Instructions
 
+Legacy local Python workflow:
+
 Install Python 3.9.13 from python.org.
 
 ```
@@ -86,5 +90,11 @@ python -m venv .venv
 Install dependencies.
 
 ```
-python -m pip install -r requirements.txt
+python -m pip install -r misc/requirements.txt
+```
+
+Run the original PyVista viewer from `misc/`:
+
+```bash
+python misc/det_viz.py
 ```

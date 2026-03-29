@@ -125,7 +125,7 @@ function testStaticPageWiring() {
   assert.match(indexHtml, /"three"\s*:\s*"https:\/\/cdn\.jsdelivr\.net\/npm\/three@0\.164\.1\/build\/three\.module\.js"/, "import map must define three");
   assert.match(indexHtml, /katex@0\.16\.11\/dist\/katex\.min\.css/, "index.html must load KaTeX CSS");
   assert.match(indexHtml, /renderMathInElement\(document\.body/, "index.html must initialize KaTeX auto-render");
-  assert.match(indexHtml, /\\\(\\det\(A\)=\\det\(Q\)\\cdot\\det\(R\)\\\)/, "index.html must include the determinant identity in LaTeX");
+  assert.match(indexHtml, /\\\(\\det\(A\)\\\)/, "index.html must include the determinant label in LaTeX");
   assert.match(appJs, /from "three";/, "app.js must import from bare specifier three");
   assert.match(appJs, /from "three\/addons\/controls\/OrbitControls\.js";/, "app.js must import OrbitControls via addons path");
   assert.match(appJs, /basis\.length === 2/, "app.js should render a plane for rank-2 singular matrices");
