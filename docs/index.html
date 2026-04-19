@@ -116,8 +116,13 @@
       <article id="math-explainer-content" class="explainer-content">
         <p>
 			The determinant of a matrix is equal to the oriented volume of the shape spanned by its column vectors.
-			To see why this is true, and how it generalizes to n-by-n matrices, lets start in 2 dimensions.
-			Consider the matrix below.
+			The purpose of this site is to help students build a geometric intuition for the determinant.
+			Formal proofs and general methods for calculating the determinant of any \(n \times n\) matrix are omitted,
+			but students can find them by following the links provided.
+		</p>
+		<p>
+		Lets start in 2 dimensions.
+		Consider the matrix below.
 		</p>
         <div class="explainer-matrix-block" aria-label="Matrix A">
           <div class="explainer-matrix-group">
@@ -131,12 +136,12 @@
                 <div class="explainer-matrix-bracket left"></div>
                 <div class="explainer-matrix-grid">
                   <div class="explainer-matrix-row">
-                    <span class="explainer-matrix-entry explainer-matrix-entry-a1">1</span>
-                    <span class="explainer-matrix-entry explainer-matrix-entry-a2">3</span>
+                    <span class="explainer-matrix-entry explainer-matrix-entry-a1">3</span>
+                    <span class="explainer-matrix-entry explainer-matrix-entry-a2">1</span>
                   </div>
                   <div class="explainer-matrix-row">
-                    <span class="explainer-matrix-entry explainer-matrix-entry-a1">2</span>
-                    <span class="explainer-matrix-entry explainer-matrix-entry-a2">1</span>
+                    <span class="explainer-matrix-entry explainer-matrix-entry-a1">1</span>
+                    <span class="explainer-matrix-entry explainer-matrix-entry-a2">2</span>
                   </div>
                 </div>
                 <div class="explainer-matrix-bracket right"></div>
@@ -144,10 +149,63 @@
             </div>
           </div>
         </div>
+		
 		<h3>Volume</h3>
+		
 		<p>
-			For each column vector in the matrix, the first row is to the x-coordinate, and the second row is the y-coordinate.
-			A parallelogram is formed by connecting the origin, \(a_1\), \(a_2\), and \(a_1 + a_2\).
+			Each column of the matrix represents a vector in two-dimensional space.
+			These vectors originate at the origin and point to specific coordinates in the plane.
+			The first row of each vector gives its x-coordinate, and the second row gives its y-coordinate.
+		</p>
+        <figure class="explainer-figure">
+          <svg viewBox="0 0 520 360" role="img" aria-labelledby="vectors-title vectors-desc">
+            <title id="vectors-title">Two column vectors drawn on a two-dimensional plane</title>
+            <desc id="vectors-desc">A coordinate plane showing two vectors from the origin to the points a1 equals 3 comma 1 and a2 equals 1 comma 2.</desc>
+            <defs>
+              <marker id="arrow-red-vectors" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#d1495b"></path>
+              </marker>
+              <marker id="arrow-green-vectors" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2c7a55"></path>
+              </marker>
+            </defs>
+            <rect x="0" y="0" width="520" height="360" rx="24" fill="rgba(255,255,255,0.72)"></rect>
+            <g stroke="rgba(88,101,106,0.14)" stroke-width="1">
+              <line x1="70" y1="40" x2="70" y2="320"></line>
+              <line x1="130" y1="40" x2="130" y2="320"></line>
+              <line x1="190" y1="40" x2="190" y2="320"></line>
+              <line x1="250" y1="40" x2="250" y2="320"></line>
+              <line x1="310" y1="40" x2="310" y2="320"></line>
+              <line x1="370" y1="40" x2="370" y2="320"></line>
+              <line x1="430" y1="40" x2="430" y2="320"></line>
+              <line x1="40" y1="300" x2="470" y2="300"></line>
+              <line x1="40" y1="240" x2="470" y2="240"></line>
+              <line x1="40" y1="180" x2="470" y2="180"></line>
+              <line x1="40" y1="120" x2="470" y2="120"></line>
+              <line x1="40" y1="60" x2="470" y2="60"></line>
+            </g>
+            <g stroke="#58656a" stroke-width="2">
+              <line x1="40" y1="300" x2="470" y2="300"></line>
+              <line x1="70" y1="320" x2="70" y2="40"></line>
+            </g>
+            <line x1="70" y1="300" x2="280" y2="240" stroke="#d1495b" stroke-width="4" marker-end="url(#arrow-red-vectors)"></line>
+            <line x1="70" y1="300" x2="140" y2="180" stroke="#2c7a55" stroke-width="4" marker-end="url(#arrow-green-vectors)"></line>
+            <g fill="#145c46" stroke="#fffaf2" stroke-width="2">
+              <circle cx="70" cy="300" r="5"></circle>
+              <circle cx="140" cy="180" r="5"></circle>
+              <circle cx="280" cy="240" r="5"></circle>
+            </g>
+            <text x="295" y="240" class="figure-vector-label red">a1 = (3, 1)</text>
+            <text x="120" y="160" class="figure-vector-label green">a2 = (1, 2)</text>
+            <text x="84" y="314" class="figure-vertex-label">(0, 0)</text>
+            <text x="474" y="305" class="figure-axis-label">x</text>
+            <text x="62" y="34" class="figure-axis-label">y</text>
+          </svg>
+        </figure>
+		
+		<p>
+			If we slide \(a_1\) so that it starts at the tip of \(a_2\), we get a new vector \(a_1 + a_2\).
+			Connecting the origin, \(a_1\), \(a_2\), and \(a_1 + a_2\) forms a parallelogram.
 			This parallelogram has some area \(A(a_1, a_2)\).
 		</p>
         <figure class="explainer-figure">
@@ -182,16 +240,16 @@
               <line x1="70" y1="320" x2="70" y2="40"></line>
             </g>
             <polygon points="70,300 140,180 350,120 280,240" fill="rgba(20,92,70,0.16)" stroke="#145c46" stroke-width="3"></polygon>
-            <line x1="70" y1="300" x2="140" y2="180" stroke="#d1495b" stroke-width="4" marker-end="url(#arrow-red)"></line>
-            <line x1="70" y1="300" x2="280" y2="240" stroke="#2c7a55" stroke-width="4" marker-end="url(#arrow-green)"></line>
+            <line x1="70" y1="300" x2="280" y2="240" stroke="#d1495b" stroke-width="4" marker-end="url(#arrow-red)"></line>
+            <line x1="70" y1="300" x2="140" y2="180" stroke="#2c7a55" stroke-width="4" marker-end="url(#arrow-green)"></line>
             <g fill="#145c46" stroke="#fffaf2" stroke-width="2">
               <circle cx="70" cy="300" r="5"></circle>
               <circle cx="140" cy="180" r="5"></circle>
               <circle cx="280" cy="240" r="5"></circle>
               <circle cx="350" cy="120" r="5"></circle>
             </g>
-            <text x="120" y="160" class="figure-vector-label red">a1 = (1, 2)</text>
-            <text x="295" y="240" class="figure-vector-label green">a2 = (3, 1)</text>
+            <text x="295" y="240" class="figure-vector-label red">a1 = (3, 1)</text>
+            <text x="120" y="160" class="figure-vector-label green">a2 = (1, 2)</text>
             <text x="358" y="110" class="figure-vertex-label">a1 + a2 = (4, 3)</text>
             <text x="84" y="314" class="figure-vertex-label">(0, 0)</text>
             <text x="170" y="222" class="figure-area-label">A(a1, a2)</text>
@@ -201,8 +259,10 @@
         </figure>
  		<p>
  			Now we will transform the parallelogram in a way that preserves its area.
- 			Plot a line starting at the origin extending in the direction of \(a_1\).
- 			From points \(a_2\) and \(a_1 + a_2\), draw lines that intersect the previous line at a 90 degree angle.
+ 			Consider the line through the origin in the direction of \(a_1\).
+ 			From the points \(a_2\) and \(a_1 + a_2\), draw perpendicular lines through this line.
+			These lines form a rectangle with the same base and perpendicular height as the original parallelogram.
+			Therefore, the rectangle has the same area as the parallelogram.
  		</p>
         <figure class="explainer-figure">
           <svg viewBox="0 0 520 360" role="img" aria-labelledby="projection-title projection-desc">
@@ -235,45 +295,40 @@
               <line x1="70" y1="320" x2="70" y2="40"></line>
             </g>
             <polygon points="70,300 140,180 350,120 280,240" fill="rgba(20,92,70,0.08)" stroke="#145c46" stroke-width="2"></polygon>
-            <polygon points="70,300 149.43,163.83 280,240" fill="rgba(91,102,112,0.18)" stroke="none"></polygon>
-            <polygon points="140,180 219.43,43.83 350,120" fill="rgba(91,102,112,0.18)" stroke="none"></polygon>
-            <line x1="140" y1="180" x2="221.67" y2="40" stroke="#8f8f8f" stroke-width="3"></line>
-            <line x1="70" y1="300" x2="140" y2="180" stroke="#d1495b" stroke-width="4" marker-end="url(#arrow-red-proj)"></line>
-            <line x1="70" y1="300" x2="280" y2="240" stroke="#2c7a55" stroke-width="4" marker-end="url(#arrow-green-proj)"></line>
-            <line x1="280" y1="240" x2="149.43" y2="163.83" stroke="#8f8f8f" stroke-width="3" stroke-dasharray="7 6"></line>
-            <line x1="350" y1="120" x2="219.43" y2="43.83" stroke="#8f8f8f" stroke-width="3" stroke-dasharray="7 6"></line>
+            <polygon points="70,300 175,270 140,180" fill="rgba(91,102,112,0.18)" stroke="none"></polygon>
+            <polygon points="280,240 385,210 350,120" fill="rgba(91,102,112,0.18)" stroke="none"></polygon>
+            <line x1="40" y1="308.57" x2="470" y2="185.71" stroke="#8f8f8f" stroke-width="3"></line>
+            <line x1="70" y1="300" x2="280" y2="240" stroke="#d1495b" stroke-width="4" marker-end="url(#arrow-red-proj)"></line>
+            <line x1="70" y1="300" x2="140" y2="180" stroke="#2c7a55" stroke-width="4" marker-end="url(#arrow-green-proj)"></line>
+            <line x1="140" y1="180" x2="175" y2="270" stroke="#8f8f8f" stroke-width="3" stroke-dasharray="7 6"></line>
+            <line x1="350" y1="120" x2="385" y2="210" stroke="#8f8f8f" stroke-width="3" stroke-dasharray="7 6"></line>
             <g fill="#145c46" stroke="#fffaf2" stroke-width="2">
               <circle cx="70" cy="300" r="5"></circle>
               <circle cx="140" cy="180" r="5"></circle>
               <circle cx="280" cy="240" r="5"></circle>
               <circle cx="350" cy="120" r="5"></circle>
-              <circle cx="149.43" cy="163.83" r="4"></circle>
-              <circle cx="219.43" cy="43.83" r="4"></circle>
+              <circle cx="175" cy="270" r="4"></circle>
+              <circle cx="385" cy="210" r="4"></circle>
             </g>
-            <text x="116" y="164" class="figure-vector-label red">\(a_1\)</text>
-            <text x="292" y="238" class="figure-vector-label green">\(a_2\)</text>
-            <text x="126" y="174" class="figure-vertex-label">A</text>
-            <text x="286" y="254" class="figure-vertex-label">B</text>
+            <text x="292" y="238" class="figure-vector-label red">\(a_1\)</text>
+            <text x="116" y="164" class="figure-vector-label green">\(a_2\)</text>
+            <text x="286" y="254" class="figure-vertex-label">A</text>
+            <text x="126" y="174" class="figure-vertex-label">B</text>
             <text x="360" y="116" class="figure-vertex-label">C</text>
             <text x="86" y="314" class="figure-vertex-label">O</text>
-            <text x="136" y="158" class="figure-vertex-label">D</text>
-            <text x="226" y="38" class="figure-vertex-label">E</text>
+            <text x="184" y="286" class="figure-vertex-label">D</text>
+            <text x="392" y="226" class="figure-vertex-label">E</text>
             <text x="474" y="305" class="figure-axis-label">x</text>
             <text x="62" y="34" class="figure-axis-label">y</text>
           </svg>
         </figure>
 		<p>
-			Consider the right triangles \(OBD\) and \(ACE\).
-			Their hypotenuses \(\overline{OB}\) and \(\overline{AC}\) are the same length because opposite sides of a parallelogram have equal length.
-			Also, legs \(\overline{BD}\) and \(\overline{CE}\) have equal length because they bisect parallel lines at the same angle.
-			So, triangles \(OBD\) and \(ACE\) are congruent and have the same area.
+			This transformation is called a shear.
+			For any parallelogram, pick one vector and slide it until the other vector becomes perpendicular to it.
+			This is called <b>orthogonalizing</b> the vectors.
+			After orthogonalizing, the vectors span a rectangle whose area is simply the product of its side lengths, making it easy to calculate.
+			Area is shear-invariant, so this is also the area of the original parallelogram.
 		</p>
- 		<p>
- 			Consider the parallelogram \(OACB\) and the rectangle \(BCED\).
- 			By cutting triangle \(OBD\) from the parallelogram and pasting triangle \(ACE\), we can form the rectangle.
- 			So \(A(Rectangle) = A(Parallelogram) + A(ACE) - A(OBD)\). But we know \(A(ACE) = A(OBD)\).
- 			Therefore, \(A(Rectangle)=A(Parallelogram)\).
- 		</p>
         <figure class="explainer-figure explainer-figure-animated">
           <svg viewBox="0 0 520 360" role="img" aria-labelledby="slide-title slide-desc">
             <title id="slide-title">Sliding OA to DE while holding BC fixed preserves area</title>
@@ -304,66 +359,309 @@
             <polygon points="70,300 140,180 350,120 280,240" class="slide-parallelogram">
               <animate attributeName="opacity" values="1;0.4;1" dur="3.2s" repeatCount="indefinite" />
             </polygon>
-            <polygon points="149.43,163.83 280,240 350,120 219.43,43.83" class="slide-rectangle">
+            <polygon points="175,270 140,180 350,120 385,210" class="slide-rectangle">
               <animate attributeName="opacity" values="0.3;1;0.3" dur="3.2s" repeatCount="indefinite" />
             </polygon>
-            <line x1="280" y1="240" x2="350" y2="120" class="slide-fixed-edge"></line>
-            <line x1="280" y1="240" x2="149.43" y2="163.83" class="slide-projection"></line>
-            <line x1="350" y1="120" x2="219.43" y2="43.83" class="slide-projection"></line>
-            <line x1="70" y1="300" x2="280" y2="240" class="slide-a2-original"></line>
-            <line x1="140" y1="180" x2="350" y2="120" class="slide-ac-original"></line>
-            <line x1="280" y1="240" x2="70" y2="300" class="slide-a2-ortho" marker-end="url(#arrow-green-proj)">
-              <animate attributeName="x2" values="70;149.43;70" dur="3.2s" repeatCount="indefinite" />
-              <animate attributeName="y2" values="300;163.83;300" dur="3.2s" repeatCount="indefinite" />
+            <line x1="140" y1="180" x2="350" y2="120" class="slide-fixed-edge"></line>
+            <line x1="140" y1="180" x2="175" y2="270" class="slide-projection"></line>
+            <line x1="350" y1="120" x2="385" y2="210" class="slide-projection"></line>
+            <line x1="70" y1="300" x2="140" y2="180" class="slide-a2-original"></line>
+            <line x1="280" y1="240" x2="350" y2="120" class="slide-ac-original"></line>
+            <line x1="70" y1="300" x2="140" y2="180" class="slide-a2-ortho" marker-end="url(#arrow-green-proj)">
+              <animate attributeName="x1" values="70;175;70" dur="3.2s" repeatCount="indefinite" />
+              <animate attributeName="y1" values="300;270;300" dur="3.2s" repeatCount="indefinite" />
             </line>
-            <line x1="350" y1="120" x2="140" y2="180" class="slide-ac-ortho">
-              <animate attributeName="x2" values="140;219.43;140" dur="3.2s" repeatCount="indefinite" />
-              <animate attributeName="y2" values="180;43.83;180" dur="3.2s" repeatCount="indefinite" />
+            <line x1="350" y1="120" x2="280" y2="240" class="slide-ac-ortho">
+              <animate attributeName="x2" values="280;385;280" dur="3.2s" repeatCount="indefinite" />
+              <animate attributeName="y2" values="240;210;240" dur="3.2s" repeatCount="indefinite" />
             </line>
             <g class="slide-moving-side slide-moving-oa">
               <animateTransform
                 attributeName="transform"
                 type="translate"
-                values="0 0; 79.43 -136.17; 0 0"
+                values="0 0; 105 -30; 0 0"
                 dur="3.2s"
                 repeatCount="indefinite" />
-              <line x1="70" y1="300" x2="140" y2="180" stroke="#d1495b" stroke-width="4" marker-end="url(#arrow-red-slide)"></line>
+              <line x1="70" y1="300" x2="280" y2="240" stroke="#d1495b" stroke-width="4" marker-end="url(#arrow-red-slide)"></line>
               <circle cx="70" cy="300" r="5" fill="#145c46" stroke="#fffaf2" stroke-width="2"></circle>
-              <circle cx="140" cy="180" r="5" fill="#145c46" stroke="#fffaf2" stroke-width="2"></circle>
+              <circle cx="280" cy="240" r="5" fill="#145c46" stroke="#fffaf2" stroke-width="2"></circle>
             </g>
             <g fill="#145c46" stroke="#fffaf2" stroke-width="2">
-              <circle cx="280" cy="240" r="5"></circle>
+              <circle cx="140" cy="180" r="5"></circle>
               <circle cx="350" cy="120" r="5"></circle>
-              <circle cx="149.43" cy="163.83" r="4"></circle>
-              <circle cx="219.43" cy="43.83" r="4"></circle>
+              <circle cx="175" cy="270" r="4"></circle>
+              <circle cx="385" cy="210" r="4"></circle>
               <circle cx="70" cy="300" r="5">
-                <animate attributeName="cx" values="70;149.43;70" dur="3.2s" repeatCount="indefinite" />
-                <animate attributeName="cy" values="300;163.83;300" dur="3.2s" repeatCount="indefinite" />
+                <animate attributeName="cx" values="70;175;70" dur="3.2s" repeatCount="indefinite" />
+                <animate attributeName="cy" values="300;270;300" dur="3.2s" repeatCount="indefinite" />
               </circle>
-              <circle cx="140" cy="180" r="5">
-                <animate attributeName="cx" values="140;219.43;140" dur="3.2s" repeatCount="indefinite" />
-                <animate attributeName="cy" values="180;43.83;180" dur="3.2s" repeatCount="indefinite" />
+              <circle cx="280" cy="240" r="5">
+                <animate attributeName="cx" values="280;385;280" dur="3.2s" repeatCount="indefinite" />
+                <animate attributeName="cy" values="240;210;240" dur="3.2s" repeatCount="indefinite" />
               </circle>
             </g>
-            <text x="126" y="174" class="figure-vertex-label">A</text>
-            <text x="286" y="254" class="figure-vertex-label">B</text>
+            <text x="286" y="254" class="figure-vertex-label">A</text>
+            <text x="126" y="174" class="figure-vertex-label">B</text>
             <text x="360" y="116" class="figure-vertex-label">C</text>
             <text x="86" y="314" class="figure-vertex-label">O</text>
-            <text x="136" y="158" class="figure-vertex-label">D</text>
-            <text x="226" y="38" class="figure-vertex-label">E</text>
-            <text x="232" y="276" class="figure-vertex-label slide-a2-label">\(OB\)</text>
-            <text x="172" y="214" class="figure-vertex-label slide-a2-ortho-label">\(DB\)</text>
-            <text x="226" y="132" class="figure-vertex-label slide-ac-label">\(AC\)</text>
-            <text x="242" y="70" class="figure-vertex-label slide-ac-ortho-label">\(EC\)</text>
+            <text x="184" y="286" class="figure-vertex-label">D</text>
+            <text x="392" y="226" class="figure-vertex-label">E</text>
+            <text x="96" y="248" class="figure-vertex-label slide-a2-label">\(OB\)</text>
+            <text x="148" y="232" class="figure-vertex-label slide-a2-ortho-label">\(DB\)</text>
+            <text x="315" y="186" class="figure-vertex-label slide-ac-label">\(AC\)</text>
+            <text x="368" y="170" class="figure-vertex-label slide-ac-ortho-label">\(EC\)</text>
             <text x="474" y="305" class="figure-axis-label">x</text>
             <text x="62" y="34" class="figure-axis-label">y</text>
           </svg>
         </figure>
 		<p>
-			Applying a shear transformation by sliding one side of the parallelogram while keeping the other side fixed preserves area.
-			For any parallelogram, we pick one vector to keep constant and slide it until the other vector becomes perpendicular to it.
-			This is called <b>orthogonalizing</b> vectors.
-			After orthogonalizing, we have a rectangle whose area is simply the product of its side lengths.
+			There is a formula for this orthogonalization step. To make a vector \(v\) perpendicular to a vector \(w\),
+			subtract the projection of \(v\) onto \(w\).
+			<div class="responsive-equation">
+				<div class="equation-variant equation-single">
+					$$
+					v_{\perp} = v - \operatorname{proj}_{w}(v) = v - \frac{v^{T} w}{w^{T} w} w
+					$$
+				</div>
+				<div class="equation-variant equation-multiline">
+					$$
+					\begin{aligned}
+					v_{\perp} &= v - \operatorname{proj}_{w}(v) \\
+					&= v - \frac{v^{T} w}{w^{T} w} w
+					\end{aligned}
+					$$
+				</div>
+			</div>
+			This removes the part of \(v\) that points in the direction of \(w\), leaving only the perpendicular part.
+		</p>
+		<p>
+			For our matrix, let \(a_1 = (3, 1)\) and \(a_2 = (1, 2)\). We keep \(a_1\) fixed and orthogonalize \(a_2\).
+			<div class="responsive-equation">
+				<div class="equation-variant equation-single">
+					$$
+					\operatorname{proj}_{a_1}(a_2) = \frac{a_2^{T} a_1}{a_1^{T} a_1} a_1 = \frac{1 \cdot 3 + 2 \cdot 1}{3^2 + 1^2} a_1 = \frac{5}{10} a_1 = \left(\frac{3}{2}, \frac{1}{2}\right)
+					$$
+				</div>
+				<div class="equation-variant equation-multiline">
+					$$
+					\begin{aligned}
+					\operatorname{proj}_{a_1}(a_2)
+					&= \frac{a_2^{T} a_1}{a_1^{T} a_1} a_1 \\
+					&= \frac{1 \cdot 3 + 2 \cdot 1}{3^2 + 1^2} a_1 \\
+					&= \frac{5}{10} a_1 \\
+					&= \left(\frac{3}{2}, \frac{1}{2}\right)
+					\end{aligned}
+					$$
+				</div>
+			</div>
+			This lets us orthogonalize \(a_2\).
+			<div class="responsive-equation">
+				<div class="equation-variant equation-single">
+					$$
+					a_2^\perp = a_2 - \operatorname{proj}_{a_1}(a_2) = (1, 2) - \left(\frac{3}{2}, \frac{1}{2}\right) = \left(-\frac{1}{2}, \frac{3}{2}\right)
+					$$
+				</div>
+				<div class="equation-variant equation-multiline">
+					$$
+					\begin{aligned}
+					a_2^\perp &= a_2 - \operatorname{proj}_{a_1}(a_2) \\
+					&= (1, 2) - \left(\frac{3}{2}, \frac{1}{2}\right) \\
+					&= \left(-\frac{1}{2}, \frac{3}{2}\right)
+					\end{aligned}
+					$$
+				</div>
+			</div>
+			\(a_1^{T} a_2^\perp = 3 \cdot \left(-\frac{1}{2}\right) + 1 \cdot \frac{3}{2} = 0\), so the two vectors are perpendicular.
+		</p>
+		<p>
+			We now find the side lengths of the rectangle.
+			<div class="responsive-equation">
+				<div class="equation-variant equation-single">
+					$$
+					\|a_1\| = \sqrt{3^2 + 1^2} = \sqrt{10}, \qquad \|a_2^\perp\| = \sqrt{\left(-\frac{1}{2}\right)^2 + \left(\frac{3}{2}\right)^2} = \sqrt{\frac{10}{4}} = \frac{\sqrt{10}}{2}
+					$$
+				</div>
+				<div class="equation-variant equation-multiline">
+					$$
+					\begin{aligned}
+					\|a_1\| &= \sqrt{3^2 + 1^2} = \sqrt{10}, \\
+					\|a_2^\perp\|
+					&= \sqrt{\left(-\frac{1}{2}\right)^2 + \left(\frac{3}{2}\right)^2} \\
+					&= \sqrt{\frac{10}{4}} = \frac{\sqrt{10}}{2}
+					\end{aligned}
+					$$
+				</div>
+			</div>
+			And finally we have the area.
+			<div class="responsive-equation">
+				<div class="equation-variant equation-single">
+					$$
+					A(a_1, a_2) = \|a_1\| \, \|a_2^\perp\| = \sqrt{10}\cdot\frac{\sqrt{10}}{2} = 5
+					$$
+				</div>
+				<div class="equation-variant equation-multiline">
+					$$
+					\begin{aligned}
+					A(a_1, a_2) &= \|a_1\| \, \|a_2^\perp\| \\
+					&= \sqrt{10}\cdot\frac{\sqrt{10}}{2} \\
+					&= 5
+					\end{aligned}
+					$$
+				</div>
+			</div>
+			So the area of the parallelogram spanned by \(a_1\) and \(a_2\) is 5.
+		</p>
+		<p>
+			The <b>Gram-Schmidt process</b> generalizes this idea to higher dimensions.
+			By repeatedly subtracting projections, we turn any linearly independent set of
+			\(n\) vectors into an orthogonal basis for the same subspace.
+			In higher dimensions, that gives a systematic way to convert any
+			parallelotope into a hyperrectangle whose volume is easy to compute.
+		</p>
+		<p>
+			For more on the Gram-Schmidt process, refer to Professor Gilbert Strang's excellent lecture on the topic,
+			available on <a href="https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-17-orthogonal-matrices-and-gram-schmidt/">MIT OpenCourseWare</a>.
+		</p>
+		
+		<h3>Orientation</h3>
+		
+		<p>
+			Consider the pairs of orthogonal vectors below.
+		</p>
+        <div class="orientation-matrix-row">
+          <div class="explainer-matrix-block orientation-matrix-block" aria-label="Matrix A">
+            <div class="explainer-matrix-group">
+              <div class="explainer-matrix-column-labels" aria-hidden="true">
+                <span class="explainer-column-label explainer-column-a1">a1</span>
+                <span class="explainer-column-label explainer-column-a2">a2</span>
+              </div>
+              <div class="explainer-matrix-main">
+                <div class="explainer-matrix-name">A =</div>
+                <div class="explainer-matrix-shell" aria-hidden="true">
+                  <div class="explainer-matrix-bracket left"></div>
+                  <div class="explainer-matrix-grid">
+                    <div class="explainer-matrix-row">
+                      <span class="explainer-matrix-entry explainer-matrix-entry-a1">-1</span>
+                      <span class="explainer-matrix-entry explainer-matrix-entry-a2">0</span>
+                    </div>
+                    <div class="explainer-matrix-row">
+                      <span class="explainer-matrix-entry explainer-matrix-entry-a1">0</span>
+                      <span class="explainer-matrix-entry explainer-matrix-entry-a2">1</span>
+                    </div>
+                  </div>
+                  <div class="explainer-matrix-bracket right"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="explainer-matrix-block orientation-matrix-block" aria-label="Matrix B">
+            <div class="explainer-matrix-group">
+              <div class="explainer-matrix-column-labels" aria-hidden="true">
+                <span class="explainer-column-label explainer-column-a1">b1</span>
+                <span class="explainer-column-label explainer-column-a2">b2</span>
+              </div>
+              <div class="explainer-matrix-main">
+                <div class="explainer-matrix-name">B =</div>
+                <div class="explainer-matrix-shell" aria-hidden="true">
+                  <div class="explainer-matrix-bracket left"></div>
+                  <div class="explainer-matrix-grid">
+                    <div class="explainer-matrix-row">
+                      <span class="explainer-matrix-entry explainer-matrix-entry-a1">0</span>
+                      <span class="explainer-matrix-entry explainer-matrix-entry-a2">1</span>
+                    </div>
+                    <div class="explainer-matrix-row">
+                      <span class="explainer-matrix-entry explainer-matrix-entry-a1">1</span>
+                      <span class="explainer-matrix-entry explainer-matrix-entry-a2">0</span>
+                    </div>
+                  </div>
+                  <div class="explainer-matrix-bracket right"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="orientation-plot-row">
+          <figure class="explainer-figure orientation-figure">
+              <svg viewBox="0 0 450 360" role="img" aria-labelledby="orientation-a-title orientation-a-desc">
+                <title id="orientation-a-title">Matrix A plotted on a two-dimensional plane</title>
+                <desc id="orientation-a-desc">A four-quadrant coordinate plane showing the vectors a1 equals negative 1 comma 0 and a2 equals 0 comma 1 from the origin.</desc>
+                <defs>
+                  <marker id="arrow-red-orientation-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#d1495b"></path>
+                  </marker>
+                  <marker id="arrow-green-orientation-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#2c7a55"></path>
+                  </marker>
+                </defs>
+                <rect x="0" y="0" width="450" height="360" rx="24" fill="rgba(255,255,255,0.72)"></rect>
+                <g stroke="rgba(88,101,106,0.14)" stroke-width="1">
+                  <line x1="42.5" y1="34" x2="42.5" y2="326"></line>
+                  <line x1="133.75" y1="34" x2="133.75" y2="326"></line>
+                  <line x1="225" y1="34" x2="225" y2="326"></line>
+                  <line x1="316.25" y1="34" x2="316.25" y2="326"></line>
+                  <line x1="407.5" y1="34" x2="407.5" y2="326"></line>
+                  <line x1="42.5" y1="34" x2="407.5" y2="34"></line>
+                  <line x1="42.5" y1="107" x2="407.5" y2="107"></line>
+                  <line x1="42.5" y1="180" x2="407.5" y2="180"></line>
+                  <line x1="42.5" y1="253" x2="407.5" y2="253"></line>
+                  <line x1="42.5" y1="326" x2="407.5" y2="326"></line>
+                </g>
+                <g stroke="#58656a" stroke-width="2">
+                  <line x1="42.5" y1="180" x2="407.5" y2="180"></line>
+                  <line x1="225" y1="34" x2="225" y2="326"></line>
+                </g>
+                <line x1="225" y1="180" x2="133.75" y2="180" stroke="#d1495b" stroke-width="4" marker-end="url(#arrow-red-orientation-a)"></line>
+                <line x1="225" y1="180" x2="225" y2="107" stroke="#2c7a55" stroke-width="4" marker-end="url(#arrow-green-orientation-a)"></line>
+                <text x="413.5" y="184" class="figure-axis-label">x</text>
+                <text x="217" y="28" class="figure-axis-label">y</text>
+              </svg>
+            </figure>
+          <figure class="explainer-figure orientation-figure">
+              <svg viewBox="0 0 450 360" role="img" aria-labelledby="orientation-b-title orientation-b-desc">
+                <title id="orientation-b-title">Matrix B plotted on a two-dimensional plane</title>
+                <desc id="orientation-b-desc">A four-quadrant coordinate plane showing the vectors b1 equals 0 comma 1 and b2 equals 1 comma 0 from the origin.</desc>
+                <defs>
+                  <marker id="arrow-red-orientation-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#d1495b"></path>
+                  </marker>
+                  <marker id="arrow-green-orientation-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#2c7a55"></path>
+                  </marker>
+                </defs>
+                <rect x="0" y="0" width="450" height="360" rx="24" fill="rgba(255,255,255,0.72)"></rect>
+                <g stroke="rgba(88,101,106,0.14)" stroke-width="1">
+                  <line x1="42.5" y1="34" x2="42.5" y2="326"></line>
+                  <line x1="133.75" y1="34" x2="133.75" y2="326"></line>
+                  <line x1="225" y1="34" x2="225" y2="326"></line>
+                  <line x1="316.25" y1="34" x2="316.25" y2="326"></line>
+                  <line x1="407.5" y1="34" x2="407.5" y2="326"></line>
+                  <line x1="42.5" y1="34" x2="407.5" y2="34"></line>
+                  <line x1="42.5" y1="107" x2="407.5" y2="107"></line>
+                  <line x1="42.5" y1="180" x2="407.5" y2="180"></line>
+                  <line x1="42.5" y1="253" x2="407.5" y2="253"></line>
+                  <line x1="42.5" y1="326" x2="407.5" y2="326"></line>
+                </g>
+                <g stroke="#58656a" stroke-width="2">
+                  <line x1="42.5" y1="180" x2="407.5" y2="180"></line>
+                  <line x1="225" y1="34" x2="225" y2="326"></line>
+                </g>
+                <line x1="225" y1="180" x2="225" y2="107" stroke="#d1495b" stroke-width="4" marker-end="url(#arrow-red-orientation-b)"></line>
+                <line x1="225" y1="180" x2="316.25" y2="180" stroke="#2c7a55" stroke-width="4" marker-end="url(#arrow-green-orientation-b)"></line>
+                <text x="413.5" y="184" class="figure-axis-label">x</text>
+                <text x="217" y="28" class="figure-axis-label">y</text>
+              </svg>
+            </figure>
+        </div>
+		<p>
+			Suppose we want to transform the vectors so that the first is aligned along the positive x-axis
+			and the second is aligned along the positive y-axis.
+			We can do this for \(a_1\) and \(a_2\) by rotating the space by 90 degrees clockwise.
+			But no rotation can put \(b_1\) and \(b_2\) in that position.
+		</p>
+		<p>
+			We must use a reflection because \(b_1\) and \(b_2\) have an inverted orientation.
+			Reflecting across the mirror line \(y=x\) sends these vectors to their destination.
+			We say that a reflection <b>inverts</b> the orientation of a space, while a rotation <b>preserves</b> orientation.
 		</p>
       </article>
     </div>

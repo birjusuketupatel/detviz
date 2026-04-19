@@ -93,6 +93,20 @@ body {
   line-height: 1.7;
 }
 
+.explainer-content .katex-display {
+  max-width: 100%;
+  margin: 0.9em 0;
+}
+
+.equation-multiline {
+  display: none;
+}
+
+.equation-single .katex-display {
+  overflow-x: visible;
+  overflow-y: hidden;
+}
+
 .explainer-matrix-block {
   display: flex;
   align-items: center;
@@ -244,6 +258,80 @@ body {
   line-height: 1.5;
 }
 
+.orientation-matrix-row,
+.orientation-plot-row {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 8px;
+  align-items: start;
+}
+
+.orientation-plot-row {
+  justify-content: space-evenly;
+}
+
+.orientation-matrix-row {
+  justify-content: space-evenly;
+}
+
+.orientation-matrix-row {
+  margin: 8px 0 22px;
+}
+
+.orientation-plot-row {
+  margin: 0 0 22px;
+}
+
+.orientation-matrix-block {
+  margin: 0;
+  justify-self: center;
+  transform: scale(0.9);
+  transform-origin: center;
+}
+
+.orientation-matrix-row > .orientation-matrix-block,
+.orientation-plot-row > .orientation-figure {
+  flex: 0 0 433px;
+}
+
+.orientation-matrix-row > .orientation-matrix-block {
+  display: flex;
+  justify-content: center;
+}
+
+.orientation-figure {
+  margin: 0;
+  width: 100%;
+}
+
+.orientation-figure svg {
+  max-width: 433px;
+}
+
+.orientation-matrix-block .explainer-matrix-main {
+  gap: 8px;
+}
+
+.orientation-matrix-block .explainer-matrix-column-labels {
+  gap: 8px;
+  margin-left: 44px;
+  margin-right: 14px;
+}
+
+.orientation-matrix-block .explainer-matrix-row {
+  gap: 8px;
+}
+
+.orientation-matrix-block .explainer-matrix-grid {
+  min-width: 92px;
+}
+
+.orientation-matrix-block .explainer-column-label,
+.orientation-matrix-block .explainer-matrix-entry {
+  min-width: 32px;
+}
+
 .explainer-figure-animated .slide-parallelogram {
   fill: rgba(20, 92, 70, 0.08);
   stroke: rgba(20, 92, 70, 0.55);
@@ -314,6 +402,36 @@ body {
 
 .explainer-figure-animated .slide-ac-ortho-label {
   fill: rgba(209, 73, 91, 0.92);
+}
+
+.explainer-figure-animated .reflect-mirror-line {
+  stroke: var(--mirror);
+  stroke-width: 3;
+  stroke-dasharray: 9 7;
+}
+
+.explainer-figure-animated .reflect-red-original {
+  stroke: rgba(209, 73, 91, 0.28);
+  stroke-width: 4;
+}
+
+.explainer-figure-animated .reflect-green-original {
+  stroke: rgba(44, 122, 85, 0.28);
+  stroke-width: 4;
+}
+
+.explainer-figure-animated .reflect-red-moving {
+  stroke: rgba(209, 73, 91, 0.92);
+  stroke-width: 4;
+}
+
+.explainer-figure-animated .reflect-green-moving {
+  stroke: rgba(44, 122, 85, 0.92);
+  stroke-width: 4;
+}
+
+.explainer-figure-animated .reflect-mirror-label {
+  fill: var(--muted);
 }
 
 .figure-vector-label,
@@ -763,6 +881,36 @@ button:disabled {
   }
 }
 
+@media (max-width: 1000px) and (min-width: 641px) {
+  .explainer-card {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .explainer-content .katex-display {
+    font-size: 0.92em;
+  }
+
+  .orientation-matrix-row,
+  .orientation-plot-row {
+    gap: 6px;
+  }
+
+  .orientation-matrix-row > .orientation-matrix-block,
+  .orientation-plot-row > .orientation-figure {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .orientation-figure svg {
+    max-width: min(100%, 300px);
+  }
+
+  .orientation-matrix-block {
+    transform: scale(0.82);
+  }
+}
+
 @media (max-width: 640px) {
   .shell {
     padding: 12px;
@@ -812,5 +960,36 @@ button:disabled {
 
   .explainer-matrix-grid {
     min-width: 0;
+  }
+
+  .orientation-matrix-row,
+  .orientation-plot-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .equation-single {
+    display: none;
+  }
+
+  .equation-multiline {
+    display: block;
+  }
+}
+
+@media (max-width: 339px) {
+  .equation-single {
+    display: block;
+  }
+
+  .equation-multiline {
+    display: none;
+  }
+
+  .equation-single .katex-display {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 2px;
   }
 }
