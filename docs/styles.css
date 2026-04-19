@@ -846,7 +846,7 @@ button:disabled {
   }
 
   .viewer {
-    min-height: 360px;
+    min-height: 300px;
   }
 
   .explainer-shell {

@@ -424,30 +424,66 @@
 		<p>
 			For any \(n \times n\) invertible matrix \(A\), we can apply the Gram-Schmidt process to generate some matrix \(P\) with orthogonal column vectors.
 			We find the volume of the shape spanned by the column vectors of \(P\) by taking the product of the lengths of the column vectors.
+		</p>
+		<div class="responsive-equation">
 			<div class="equation-variant equation-single">
 				$$
 				V(P) = \prod_{i=1}^{n} ||p_i||
 				$$
 			</div>
+			<div class="equation-variant equation-multiline">
+				$$
+				V(P) = \prod_{i=1}^{n} ||p_i||
+				$$
+			</div>
+		</div>
+		<p>
 			Next, we normalize \(P\) to get some orthonormal matrix \(Q\).
 			We then decompose \(Q\) into \(k\) Householder matrices.
+		</p>
+		<div class="responsive-equation">
 			<div class="equation-variant equation-single">
 				$$
 				Q = H_1H_2 \cdots H_kI
 				$$
 			</div>
+			<div class="equation-variant equation-multiline">
+				$$
+				Q = H_1H_2 \cdots H_kI
+				$$
+			</div>
+		</div>
+		<p>
 			Given \(k\), we find the sign of the determinant.
+		</p>
+		<div class="responsive-equation">
 			<div class="equation-variant equation-single">
 				$$
 				sgn(Q) = (-1)^k
 				$$
 			</div>
+			<div class="equation-variant equation-multiline">
+				$$
+				sgn(Q) = (-1)^k
+				$$
+			</div>
+		</div>
+		<p>
 			Finally, we put volume and orientation together and get the determinant.
+		</p>
+		<div class="responsive-equation">
 			<div class="equation-variant equation-single">
 				$$
 				det(A) = sgn(Q) \cdot V(P)
 				$$
 			</div>
+			<div class="equation-variant equation-multiline">
+				$$
+				det(A) = sgn(Q) \cdot V(P)
+				$$
+			</div>
+		</div>
+		<p>
 			The animation in the top panel shows this computation in the 3-dimensional case.
 		</p>
       </article>

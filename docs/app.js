@@ -6,7 +6,6 @@ import {
   column,
   lerpMatrix,
   matricesClose,
-  maxAbsEntry,
   norm,
   normalize,
   parallelepipedVertices,
@@ -480,6 +479,7 @@ const appState = {
   determinant: 0,
   currentIndex: 0,
   axisLength: 4,
+  framePoints: [[0, 0, 0]],
   rankDeficient: false,
   animationFrame: null,
   currentMatrix: zeroMatrix(),
@@ -587,10 +587,42 @@ function animateToStep(targetIndex) {
 }
 
 function resetCamera() {
-  camera.position.set(appState.axisLength * 1.9, appState.axisLength * 1.55, appState.axisLength * 1.9);
+  const viewDirection = new THREE.Vector3(1.9, 1.55, 1.9).normalize();
+  const worldUp = Math.abs(viewDirection.y) > 0.98
+    ? new THREE.Vector3(0, 0, 1)
+    : new THREE.Vector3(0, 1, 0);
+  const right = new THREE.Vector3().crossVectors(worldUp, viewDirection).normalize();
+  const up = new THREE.Vector3().crossVectors(viewDirection, right).normalize();
+  const verticalFov = THREE.MathUtils.degToRad(camera.fov);
+  const horizontalFov = 2 * Math.atan(Math.tan(verticalFov / 2) * camera.aspect);
+  const verticalTan = Math.tan(verticalFov / 2);
+  const horizontalTan = Math.tan(horizontalFov / 2);
+  const padding = 1.08;
+  const axisOffset = appState.axisLength * 1.04;
+  const framePoints = appState.framePoints.concat([
+    [axisOffset, 0, 0],
+    [0, axisOffset, 0],
+    [0, 0, axisOffset]
+  ]);
+
+  let distance = 1;
+  framePoints.forEach((point) => {
+    const vertex = new THREE.Vector3(...point);
+    const horizontalOffset = Math.abs(vertex.dot(right)) * padding;
+    const verticalOffset = Math.abs(vertex.dot(up)) * padding;
+    const depthOffset = vertex.dot(viewDirection);
+
+    distance = Math.max(
+      distance,
+      depthOffset + (horizontalOffset / Math.max(horizontalTan, 1e-6)),
+      depthOffset + (verticalOffset / Math.max(verticalTan, 1e-6))
+    );
+  });
+
+  camera.position.copy(viewDirection.multiplyScalar(distance));
   controls.target.set(0, 0, 0);
-  camera.near = 0.1;
-  camera.far = Math.max(200, appState.axisLength * 14);
+  camera.near = Math.max(0.1, distance * 0.2);
+  camera.far = Math.max(200, distance * 4);
   camera.updateProjectionMatrix();
   controls.update();
 }
@@ -633,10 +665,21 @@ function loadMatrix(A) {
   appState.rankDeficient = rankDeficient;
 
   let extent = 1;
+  const framePoints = [[0, 0, 0]];
   steps.forEach((step) => {
-    extent = Math.max(extent, maxAbsEntry(step.A));
+    const vertices = parallelepipedVertices(step.A);
+    vertices.forEach((vertex) => {
+      extent = Math.max(
+        extent,
+        Math.abs(vertex[0]),
+        Math.abs(vertex[1]),
+        Math.abs(vertex[2])
+      );
+    });
+    framePoints.push(...vertices);
   });
-  appState.axisLength = Math.max(1.8, extent * 1.08);
+  appState.axisLength = Math.max(1.8, extent * 1.1);
+  appState.framePoints = framePoints;
 
   updateAxisLength(appState.axisLength);
   resetCamera();
