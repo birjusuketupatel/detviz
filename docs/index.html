@@ -116,6 +116,7 @@
       <article id="math-explainer-content" class="explainer-content">
         <p>
 			The determinant of a matrix is equal to the oriented volume of the shape spanned by its column vectors.
+			Volume determines the magnitude of the determinant, while orientation determines its sign.
 			The purpose of this site is to help students build a geometric intuition for the determinant.
 			Formal proofs and general methods for calculating the determinant of any \(n \times n\) matrix are omitted,
 			but students can find them by following the links provided.
@@ -206,12 +207,12 @@
 		<p>
 			If we slide \(a_1\) so that it starts at the tip of \(a_2\), we get a new vector \(a_1 + a_2\).
 			Connecting the origin, \(a_1\), \(a_2\), and \(a_1 + a_2\) forms a parallelogram.
-			This parallelogram has some area \(A(a_1, a_2)\).
+			This parallelogram has some area \(V(a_1, a_2)\).
 		</p>
         <figure class="explainer-figure">
           <svg viewBox="0 0 520 360" role="img" aria-labelledby="parallelogram-title parallelogram-desc">
             <title id="parallelogram-title">Parallelogram spanned by the columns of A</title>
-            <desc id="parallelogram-desc">A coordinate plane showing the origin, a1, a2, and a1 plus a2 as the four vertices of the parallelogram, with signed area labeled det(A).</desc>
+            <desc id="parallelogram-desc">A coordinate plane showing the origin, a1, a2, and a1 plus a2 as the four vertices of the parallelogram, with area labeled V(A).</desc>
             <defs>
               <marker id="arrow-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
                 <path d="M 0 0 L 10 5 L 0 10 z" fill="#d1495b"></path>
@@ -252,7 +253,7 @@
             <text x="120" y="160" class="figure-vector-label green">a2 = (1, 2)</text>
             <text x="358" y="110" class="figure-vertex-label">a1 + a2 = (4, 3)</text>
             <text x="84" y="314" class="figure-vertex-label">(0, 0)</text>
-            <text x="170" y="222" class="figure-area-label">A(a1, a2)</text>
+            <text x="170" y="222" class="figure-area-label">V(a1, a2)</text>
             <text x="474" y="305" class="figure-axis-label">x</text>
             <text x="62" y="34" class="figure-axis-label">y</text>
           </svg>
@@ -496,7 +497,7 @@
 			<div class="responsive-equation">
 				<div class="equation-variant equation-single">
 					$$
-					A(a_1, a_2) = \|a_1\| \, \|a_2^\perp\| = \sqrt{10}\cdot\frac{\sqrt{10}}{2} = 5
+					V(a_1, a_2) = \|a_1\| \, \|a_2^\perp\| = \sqrt{10}\cdot\frac{\sqrt{10}}{2} = 5
 					$$
 				</div>
 				<div class="equation-variant equation-multiline">
@@ -511,6 +512,51 @@
 			</div>
 			So the area of the parallelogram spanned by \(a_1\) and \(a_2\) is 5.
 		</p>
+        <figure class="explainer-figure orientation-figure">
+          <svg viewBox="0 0 360 360" role="img" aria-labelledby="orthogonalized-vectors-volume-title orthogonalized-vectors-volume-desc">
+            <title id="orthogonalized-vectors-volume-title">The vectors a1 and a2 perpendicular after orthogonalization</title>
+            <desc id="orthogonalized-vectors-volume-desc">A four-quadrant coordinate plane showing the vectors a1 equals 3 comma 1 and a2 perpendicular equals negative one half comma three halves from the origin, with the shaded area labeled V(a1,a2).</desc>
+            <defs>
+              <marker id="arrow-red-ortho-vectors-volume" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#d1495b"></path>
+              </marker>
+              <marker id="arrow-green-ortho-vectors-volume" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2c7a55"></path>
+              </marker>
+            </defs>
+            <rect x="0" y="0" width="360" height="360" rx="24" fill="rgba(255,255,255,0.72)"></rect>
+            <g stroke="rgba(88,101,106,0.14)" stroke-width="1">
+              <line x1="24" y1="24" x2="24" y2="336"></line>
+              <line x1="102" y1="24" x2="102" y2="336"></line>
+              <line x1="180" y1="24" x2="180" y2="336"></line>
+              <line x1="258" y1="24" x2="258" y2="336"></line>
+              <line x1="336" y1="24" x2="336" y2="336"></line>
+              <line x1="24" y1="24" x2="336" y2="24"></line>
+              <line x1="24" y1="102" x2="336" y2="102"></line>
+              <line x1="24" y1="180" x2="336" y2="180"></line>
+              <line x1="24" y1="258" x2="336" y2="258"></line>
+              <line x1="24" y1="336" x2="336" y2="336"></line>
+            </g>
+            <g stroke="#58656a" stroke-width="2">
+              <line x1="24" y1="180" x2="336" y2="180"></line>
+              <line x1="180" y1="24" x2="180" y2="336"></line>
+            </g>
+            <polygon points="180,180 297,141 277.5,82.5 160.5,121.5" fill="rgba(20,92,70,0.12)" stroke="#145c46" stroke-width="3"></polygon>
+            <line x1="180" y1="180" x2="297" y2="141" stroke="#d1495b" stroke-width="4" marker-end="url(#arrow-red-ortho-vectors-volume)"></line>
+            <line x1="180" y1="180" x2="160.5" y2="121.5" stroke="#2c7a55" stroke-width="4" marker-end="url(#arrow-green-ortho-vectors-volume)"></line>
+            <g fill="#145c46" stroke="#fffaf2" stroke-width="2">
+              <circle cx="180" cy="180" r="4.5"></circle>
+              <circle cx="297" cy="141" r="4.5"></circle>
+              <circle cx="160.5" cy="121.5" r="4.5"></circle>
+              <circle cx="277.5" cy="82.5" r="4.5"></circle>
+            </g>
+            <text x="229" y="136" class="figure-area-label" text-anchor="middle">V(a1, a2)</text>
+            <text x="302" y="128" class="figure-vector-label red">a1</text>
+            <text x="136" y="112" class="figure-vector-label green">a2</text>
+            <text x="340" y="184" class="figure-axis-label">x</text>
+            <text x="172" y="20" class="figure-axis-label">y</text>
+          </svg>
+        </figure>
 		<p>
 			The <b>Gram-Schmidt process</b> generalizes this idea to higher dimensions.
 			By repeatedly subtracting projections, we turn any linearly independent set of
@@ -529,31 +575,6 @@
 			Consider the pairs of orthogonal vectors below.
 		</p>
         <div class="orientation-matrix-row">
-          <div class="explainer-matrix-block orientation-matrix-block" aria-label="Matrix A">
-            <div class="explainer-matrix-group">
-              <div class="explainer-matrix-column-labels" aria-hidden="true">
-                <span class="explainer-column-label explainer-column-a1">a1</span>
-                <span class="explainer-column-label explainer-column-a2">a2</span>
-              </div>
-              <div class="explainer-matrix-main">
-                <div class="explainer-matrix-name">A =</div>
-                <div class="explainer-matrix-shell" aria-hidden="true">
-                  <div class="explainer-matrix-bracket left"></div>
-                  <div class="explainer-matrix-grid">
-                    <div class="explainer-matrix-row">
-                      <span class="explainer-matrix-entry explainer-matrix-entry-a1">-1</span>
-                      <span class="explainer-matrix-entry explainer-matrix-entry-a2">0</span>
-                    </div>
-                    <div class="explainer-matrix-row">
-                      <span class="explainer-matrix-entry explainer-matrix-entry-a1">0</span>
-                      <span class="explainer-matrix-entry explainer-matrix-entry-a2">1</span>
-                    </div>
-                  </div>
-                  <div class="explainer-matrix-bracket right"></div>
-                </div>
-              </div>
-            </div>
-          </div>
           <div class="explainer-matrix-block orientation-matrix-block" aria-label="Matrix B">
             <div class="explainer-matrix-group">
               <div class="explainer-matrix-column-labels" aria-hidden="true">
@@ -562,6 +583,31 @@
               </div>
               <div class="explainer-matrix-main">
                 <div class="explainer-matrix-name">B =</div>
+                <div class="explainer-matrix-shell" aria-hidden="true">
+                  <div class="explainer-matrix-bracket left"></div>
+                  <div class="explainer-matrix-grid">
+                    <div class="explainer-matrix-row">
+                      <span class="explainer-matrix-entry explainer-matrix-entry-a1">0</span>
+                      <span class="explainer-matrix-entry explainer-matrix-entry-a2">-1</span>
+                    </div>
+                    <div class="explainer-matrix-row">
+                      <span class="explainer-matrix-entry explainer-matrix-entry-a1">1</span>
+                      <span class="explainer-matrix-entry explainer-matrix-entry-a2">0</span>
+                    </div>
+                  </div>
+                  <div class="explainer-matrix-bracket right"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="explainer-matrix-block orientation-matrix-block" aria-label="Matrix C">
+            <div class="explainer-matrix-group">
+              <div class="explainer-matrix-column-labels" aria-hidden="true">
+                <span class="explainer-column-label explainer-column-a1">c1</span>
+                <span class="explainer-column-label explainer-column-a2">c2</span>
+              </div>
+              <div class="explainer-matrix-main">
+                <div class="explainer-matrix-name">C =</div>
                 <div class="explainer-matrix-shell" aria-hidden="true">
                   <div class="explainer-matrix-bracket left"></div>
                   <div class="explainer-matrix-grid">
@@ -582,9 +628,9 @@
         </div>
         <div class="orientation-plot-row">
           <figure class="explainer-figure orientation-figure">
-              <svg viewBox="0 0 450 360" role="img" aria-labelledby="orientation-a-title orientation-a-desc">
-                <title id="orientation-a-title">Matrix A plotted on a two-dimensional plane</title>
-                <desc id="orientation-a-desc">A four-quadrant coordinate plane showing the vectors a1 equals negative 1 comma 0 and a2 equals 0 comma 1 from the origin.</desc>
+              <svg viewBox="0 0 360 360" role="img" aria-labelledby="orientation-a-title orientation-a-desc">
+                <title id="orientation-a-title">Matrix B plotted on a two-dimensional plane</title>
+                <desc id="orientation-a-desc">A four-quadrant coordinate plane showing the vectors b1 and b2 from the origin.</desc>
                 <defs>
                   <marker id="arrow-red-orientation-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
                     <path d="M 0 0 L 10 5 L 0 10 z" fill="#d1495b"></path>
@@ -593,33 +639,36 @@
                     <path d="M 0 0 L 10 5 L 0 10 z" fill="#2c7a55"></path>
                   </marker>
                 </defs>
-                <rect x="0" y="0" width="450" height="360" rx="24" fill="rgba(255,255,255,0.72)"></rect>
+                <rect x="0" y="0" width="360" height="360" rx="24" fill="rgba(255,255,255,0.72)"></rect>
                 <g stroke="rgba(88,101,106,0.14)" stroke-width="1">
-                  <line x1="42.5" y1="34" x2="42.5" y2="326"></line>
-                  <line x1="133.75" y1="34" x2="133.75" y2="326"></line>
-                  <line x1="225" y1="34" x2="225" y2="326"></line>
-                  <line x1="316.25" y1="34" x2="316.25" y2="326"></line>
-                  <line x1="407.5" y1="34" x2="407.5" y2="326"></line>
-                  <line x1="42.5" y1="34" x2="407.5" y2="34"></line>
-                  <line x1="42.5" y1="107" x2="407.5" y2="107"></line>
-                  <line x1="42.5" y1="180" x2="407.5" y2="180"></line>
-                  <line x1="42.5" y1="253" x2="407.5" y2="253"></line>
-                  <line x1="42.5" y1="326" x2="407.5" y2="326"></line>
+                  <line x1="24" y1="24" x2="24" y2="336"></line>
+                  <line x1="102" y1="24" x2="102" y2="336"></line>
+                  <line x1="180" y1="24" x2="180" y2="336"></line>
+                  <line x1="258" y1="24" x2="258" y2="336"></line>
+                  <line x1="336" y1="24" x2="336" y2="336"></line>
+                  <line x1="24" y1="24" x2="336" y2="24"></line>
+                  <line x1="24" y1="102" x2="336" y2="102"></line>
+                  <line x1="24" y1="180" x2="336" y2="180"></line>
+                  <line x1="24" y1="258" x2="336" y2="258"></line>
+                  <line x1="24" y1="336" x2="336" y2="336"></line>
                 </g>
                 <g stroke="#58656a" stroke-width="2">
-                  <line x1="42.5" y1="180" x2="407.5" y2="180"></line>
-                  <line x1="225" y1="34" x2="225" y2="326"></line>
+                  <line x1="24" y1="180" x2="336" y2="180"></line>
+                  <line x1="180" y1="24" x2="180" y2="336"></line>
                 </g>
-                <line x1="225" y1="180" x2="133.75" y2="180" stroke="#d1495b" stroke-width="4" marker-end="url(#arrow-red-orientation-a)"></line>
-                <line x1="225" y1="180" x2="225" y2="107" stroke="#2c7a55" stroke-width="4" marker-end="url(#arrow-green-orientation-a)"></line>
-                <text x="413.5" y="184" class="figure-axis-label">x</text>
-                <text x="217" y="28" class="figure-axis-label">y</text>
+                <line x1="180" y1="180" x2="180" y2="102" stroke="#d1495b" stroke-width="4" marker-end="url(#arrow-red-orientation-a)"></line>
+                <line x1="180" y1="180" x2="102" y2="180" stroke="#2c7a55" stroke-width="4" marker-end="url(#arrow-green-orientation-a)"></line>
+                <circle cx="180" cy="180" r="4.5" fill="#145c46" stroke="#fffaf2" stroke-width="2"></circle>
+                <text x="190" y="98" class="figure-vector-label red">b1</text>
+                <text x="72" y="170" class="figure-vector-label green">b2</text>
+                <text x="340" y="184" class="figure-axis-label">x</text>
+                <text x="172" y="20" class="figure-axis-label">y</text>
               </svg>
             </figure>
           <figure class="explainer-figure orientation-figure">
-              <svg viewBox="0 0 450 360" role="img" aria-labelledby="orientation-b-title orientation-b-desc">
-                <title id="orientation-b-title">Matrix B plotted on a two-dimensional plane</title>
-                <desc id="orientation-b-desc">A four-quadrant coordinate plane showing the vectors b1 equals 0 comma 1 and b2 equals 1 comma 0 from the origin.</desc>
+              <svg viewBox="0 0 360 360" role="img" aria-labelledby="orientation-b-title orientation-b-desc">
+                <title id="orientation-b-title">Matrix C plotted on a two-dimensional plane</title>
+                <desc id="orientation-b-desc">A four-quadrant coordinate plane showing the vectors c1 and c2</desc>
                 <defs>
                   <marker id="arrow-red-orientation-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
                     <path d="M 0 0 L 10 5 L 0 10 z" fill="#d1495b"></path>
@@ -628,44 +677,301 @@
                     <path d="M 0 0 L 10 5 L 0 10 z" fill="#2c7a55"></path>
                   </marker>
                 </defs>
-                <rect x="0" y="0" width="450" height="360" rx="24" fill="rgba(255,255,255,0.72)"></rect>
+                <rect x="0" y="0" width="360" height="360" rx="24" fill="rgba(255,255,255,0.72)"></rect>
                 <g stroke="rgba(88,101,106,0.14)" stroke-width="1">
-                  <line x1="42.5" y1="34" x2="42.5" y2="326"></line>
-                  <line x1="133.75" y1="34" x2="133.75" y2="326"></line>
-                  <line x1="225" y1="34" x2="225" y2="326"></line>
-                  <line x1="316.25" y1="34" x2="316.25" y2="326"></line>
-                  <line x1="407.5" y1="34" x2="407.5" y2="326"></line>
-                  <line x1="42.5" y1="34" x2="407.5" y2="34"></line>
-                  <line x1="42.5" y1="107" x2="407.5" y2="107"></line>
-                  <line x1="42.5" y1="180" x2="407.5" y2="180"></line>
-                  <line x1="42.5" y1="253" x2="407.5" y2="253"></line>
-                  <line x1="42.5" y1="326" x2="407.5" y2="326"></line>
+                  <line x1="24" y1="24" x2="24" y2="336"></line>
+                  <line x1="102" y1="24" x2="102" y2="336"></line>
+                  <line x1="180" y1="24" x2="180" y2="336"></line>
+                  <line x1="258" y1="24" x2="258" y2="336"></line>
+                  <line x1="336" y1="24" x2="336" y2="336"></line>
+                  <line x1="24" y1="24" x2="336" y2="24"></line>
+                  <line x1="24" y1="102" x2="336" y2="102"></line>
+                  <line x1="24" y1="180" x2="336" y2="180"></line>
+                  <line x1="24" y1="258" x2="336" y2="258"></line>
+                  <line x1="24" y1="336" x2="336" y2="336"></line>
                 </g>
                 <g stroke="#58656a" stroke-width="2">
-                  <line x1="42.5" y1="180" x2="407.5" y2="180"></line>
-                  <line x1="225" y1="34" x2="225" y2="326"></line>
+                  <line x1="24" y1="180" x2="336" y2="180"></line>
+                  <line x1="180" y1="24" x2="180" y2="336"></line>
                 </g>
-                <line x1="225" y1="180" x2="225" y2="107" stroke="#d1495b" stroke-width="4" marker-end="url(#arrow-red-orientation-b)"></line>
-                <line x1="225" y1="180" x2="316.25" y2="180" stroke="#2c7a55" stroke-width="4" marker-end="url(#arrow-green-orientation-b)"></line>
-                <text x="413.5" y="184" class="figure-axis-label">x</text>
-                <text x="217" y="28" class="figure-axis-label">y</text>
+                <line x1="180" y1="180" x2="180" y2="102" stroke="#d1495b" stroke-width="4" marker-end="url(#arrow-red-orientation-b)"></line>
+                <line x1="180" y1="180" x2="258" y2="180" stroke="#2c7a55" stroke-width="4" marker-end="url(#arrow-green-orientation-b)"></line>
+                <circle cx="180" cy="180" r="4.5" fill="#145c46" stroke="#fffaf2" stroke-width="2"></circle>
+                <text x="190" y="98" class="figure-vector-label red">c1</text>
+                <text x="266" y="170" class="figure-vector-label green">c2</text>
+                <text x="340" y="184" class="figure-axis-label">x</text>
+                <text x="172" y="20" class="figure-axis-label">y</text>
               </svg>
             </figure>
         </div>
 		<p>
 			Suppose we want to transform the vectors so that the first is aligned along the positive x-axis
 			and the second is aligned along the positive y-axis.
-			We can do this for \(a_1\) and \(a_2\) by rotating the space by 90 degrees clockwise.
-			But no rotation can put \(b_1\) and \(b_2\) in that position.
+			We can do this for \(b_1\) and \(b_2\) by rotating the space by 90 degrees clockwise.
+			But no rotation can put \(c_1\) and \(c_2\) in that position.
 		</p>
 		<p>
 			We must use a reflection because \(b_1\) and \(b_2\) have an inverted orientation.
 			Reflecting across the mirror line \(y=x\) sends these vectors to their destination.
 			We say that a reflection <b>inverts</b> the orientation of a space, while a rotation <b>preserves</b> orientation.
 		</p>
+        <figure class="explainer-figure orientation-figure">
+          <svg viewBox="0 0 360 360" role="img" aria-labelledby="orientation-reflection-title orientation-reflection-desc">
+            <title id="orientation-reflection-title">The B vectors and the mirror line y equals x</title>
+            <desc id="orientation-reflection-desc">A coordinate plane showing vectors c1 and c2 from the origin, the mirror line y equals x, and a curved arrow indicating reflection across that line.</desc>
+            <defs>
+              <marker id="arrow-red-orientation-reflect" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#d1495b"></path>
+              </marker>
+              <marker id="arrow-green-orientation-reflect" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2c7a55"></path>
+              </marker>
+              <marker id="arrow-gray-orientation-reflect" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#7b878c"></path>
+              </marker>
+            </defs>
+            <rect x="0" y="0" width="360" height="360" rx="24" fill="rgba(255,255,255,0.72)"></rect>
+            <g stroke="rgba(88,101,106,0.14)" stroke-width="1">
+              <line x1="24" y1="24" x2="24" y2="336"></line>
+              <line x1="102" y1="24" x2="102" y2="336"></line>
+              <line x1="180" y1="24" x2="180" y2="336"></line>
+              <line x1="258" y1="24" x2="258" y2="336"></line>
+              <line x1="336" y1="24" x2="336" y2="336"></line>
+              <line x1="24" y1="24" x2="336" y2="24"></line>
+              <line x1="24" y1="102" x2="336" y2="102"></line>
+              <line x1="24" y1="180" x2="336" y2="180"></line>
+              <line x1="24" y1="258" x2="336" y2="258"></line>
+              <line x1="24" y1="336" x2="336" y2="336"></line>
+            </g>
+            <g stroke="#58656a" stroke-width="2">
+              <line x1="24" y1="180" x2="336" y2="180"></line>
+              <line x1="180" y1="24" x2="180" y2="336"></line>
+            </g>
+            <line x1="24" y1="336" x2="336" y2="24" class="reflect-mirror-line" stroke="#adb5bd"></line>
+            <path d="M 208 106 Q 246 114 254 152" fill="none" stroke="#7b878c" stroke-width="2.5" stroke-dasharray="6 5" marker-start="url(#arrow-gray-orientation-reflect)" marker-end="url(#arrow-gray-orientation-reflect)"></path>
+            <line x1="180" y1="180" x2="258" y2="180" stroke="#d1495b" stroke-width="4" marker-end="url(#arrow-red-orientation-reflect)"></line>
+            <line x1="180" y1="180" x2="180" y2="102" stroke="#2c7a55" stroke-width="4" marker-end="url(#arrow-green-orientation-reflect)"></line>
+            <circle cx="180" cy="180" r="4.5" fill="#145c46" stroke="#fffaf2" stroke-width="2"></circle>
+            <text x="266" y="170" class="figure-vector-label red">c1</text>
+            <text x="192" y="98" class="figure-vector-label green">c2</text>
+            <text x="340" y="184" class="figure-axis-label">x</text>
+            <text x="172" y="20" class="figure-axis-label">y</text>
+          </svg>
+        </figure>
+		<p>
+			Notice that a rotation can be expressed as a composition of 2 reflections.
+			Reflecting across the line \(y=x\) maps \(b_1\) to the positive x-axis.
+			However, this also maps \(b_2\) to the negative y-axis.
+			We correct this by placing another mirror on the x-axis, which sends \(b_2\) to the positive y-axis.
+			Note that vector lying along the mirror line is not changed by the reflection.
+		</p>
+        <div class="orientation-plot-row">
+          <figure class="explainer-figure orientation-figure">
+            <svg viewBox="0 0 360 360" role="img" aria-labelledby="orientation-two-reflect-1-title orientation-two-reflect-1-desc">
+              <title id="orientation-two-reflect-1-title">First reflection of A across the line y equals x</title>
+              <desc id="orientation-two-reflect-1-desc">A coordinate plane showing the original B vectors, the mirror line y equals x, and the reflected vectors after the first reflection landing on the positive x-axis and negative y-axis.</desc>
+              <defs>
+                <marker id="arrow-red-orientation-step-1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#d1495b"></path>
+                </marker>
+                <marker id="arrow-green-orientation-step-1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#2c7a55"></path>
+                </marker>
+              </defs>
+              <rect x="0" y="0" width="360" height="360" rx="24" fill="rgba(255,255,255,0.72)"></rect>
+              <g stroke="rgba(88,101,106,0.14)" stroke-width="1">
+                <line x1="24" y1="24" x2="24" y2="336"></line>
+                <line x1="102" y1="24" x2="102" y2="336"></line>
+                <line x1="180" y1="24" x2="180" y2="336"></line>
+                <line x1="258" y1="24" x2="258" y2="336"></line>
+                <line x1="336" y1="24" x2="336" y2="336"></line>
+                <line x1="24" y1="24" x2="336" y2="24"></line>
+                <line x1="24" y1="102" x2="336" y2="102"></line>
+                <line x1="24" y1="180" x2="336" y2="180"></line>
+                <line x1="24" y1="258" x2="336" y2="258"></line>
+                <line x1="24" y1="336" x2="336" y2="336"></line>
+              </g>
+              <g stroke="#58656a" stroke-width="2">
+                <line x1="24" y1="180" x2="336" y2="180"></line>
+                <line x1="180" y1="24" x2="180" y2="336"></line>
+              </g>
+              <line x1="24" y1="336" x2="336" y2="24" class="reflect-mirror-line"></line>
+              <line x1="180" y1="180" x2="180" y2="102" stroke="#d1495b" stroke-width="4" marker-end="url(#arrow-red-orientation-step-1)"></line>
+              <line x1="180" y1="180" x2="102" y2="180" stroke="#2c7a55" stroke-width="4" marker-end="url(#arrow-green-orientation-step-1)"></line>
+              <path d="M 206 106 Q 244 122 252 160" fill="none" stroke="#7b878c" stroke-width="2.5" stroke-dasharray="6 5" marker-start="url(#arrow-gray-orientation-reflect)" marker-end="url(#arrow-gray-orientation-reflect)"></path>
+              <line x1="180" y1="180" x2="258" y2="180" stroke="#d1495b" stroke-width="4" marker-end="url(#arrow-red-orientation-step-1)"></line>
+              <line x1="180" y1="180" x2="180" y2="258" stroke="#2c7a55" stroke-width="4" marker-end="url(#arrow-green-orientation-step-1)"></line>
+              <circle cx="180" cy="180" r="4.5" fill="#145c46" stroke="#fffaf2" stroke-width="2"></circle>
+              <circle cx="180" cy="102" r="4.5" fill="#d1495b" stroke="#fffaf2" stroke-width="2"></circle>
+              <circle cx="102" cy="180" r="4.5" fill="#2c7a55" stroke="#fffaf2" stroke-width="2"></circle>
+              <circle cx="258" cy="180" r="4.5" fill="#d1495b" stroke="#fffaf2" stroke-width="2"></circle>
+              <circle cx="180" cy="258" r="4.5" fill="#2c7a55" stroke="#fffaf2" stroke-width="2"></circle>
+              <text x="190" y="98" class="figure-vector-label red">b1</text>
+              <text x="72" y="170" class="figure-vector-label green">b2</text>
+              <text x="268" y="172" class="figure-vector-label red">b1</text>
+              <text x="188" y="274" class="figure-vector-label green">b2</text>
+              <text x="340" y="184" class="figure-axis-label">x</text>
+              <text x="172" y="20" class="figure-axis-label">y</text>
+            </svg>
+          </figure>
+          <figure class="explainer-figure orientation-figure">
+            <svg viewBox="0 0 360 360" role="img" aria-labelledby="orientation-two-reflect-2-title orientation-two-reflect-2-desc">
+              <title id="orientation-two-reflect-2-title">Second reflection across the x-axis completes the rotation</title>
+              <desc id="orientation-two-reflect-2-desc">A coordinate plane showing the intermediate vectors, the x-axis as a mirror, and the final vectors after the second reflection with the horizontal vector unchanged and the vertical vector flipped upward.</desc>
+              <defs>
+                <marker id="arrow-red-orientation-step-2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#d1495b"></path>
+                </marker>
+                <marker id="arrow-green-orientation-step-2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#2c7a55"></path>
+                </marker>
+              </defs>
+              <rect x="0" y="0" width="360" height="360" rx="24" fill="rgba(255,255,255,0.72)"></rect>
+              <g stroke="rgba(88,101,106,0.14)" stroke-width="1">
+                <line x1="24" y1="24" x2="24" y2="336"></line>
+                <line x1="102" y1="24" x2="102" y2="336"></line>
+                <line x1="180" y1="24" x2="180" y2="336"></line>
+                <line x1="258" y1="24" x2="258" y2="336"></line>
+                <line x1="336" y1="24" x2="336" y2="336"></line>
+                <line x1="24" y1="24" x2="336" y2="24"></line>
+                <line x1="24" y1="102" x2="336" y2="102"></line>
+                <line x1="24" y1="180" x2="336" y2="180"></line>
+                <line x1="24" y1="258" x2="336" y2="258"></line>
+                <line x1="24" y1="336" x2="336" y2="336"></line>
+              </g>
+              <g stroke="#58656a" stroke-width="2">
+                <line x1="24" y1="180" x2="336" y2="180"></line>
+                <line x1="180" y1="24" x2="180" y2="336"></line>
+              </g>
+              <line x1="24" y1="180" x2="336" y2="180" class="reflect-mirror-line"></line>
+              <line x1="180" y1="180" x2="258" y2="180" stroke="#d1495b" stroke-width="4" marker-end="url(#arrow-red-orientation-step-2)"></line>
+              <line x1="180" y1="180" x2="180" y2="258" stroke="#2c7a55" stroke-width="4" marker-end="url(#arrow-green-orientation-step-2)"></line>
+              <path d="M 206 254 Q 246 214 206 106" fill="none" stroke="#7b878c" stroke-width="2.5" stroke-dasharray="6 5" marker-start="url(#arrow-gray-orientation-reflect)" marker-end="url(#arrow-gray-orientation-reflect)"></path>
+              <line x1="180" y1="180" x2="258" y2="180" stroke="#d1495b" stroke-width="4" marker-end="url(#arrow-red-orientation-step-2)"></line>
+              <line x1="180" y1="180" x2="180" y2="102" stroke="#2c7a55" stroke-width="4" marker-end="url(#arrow-green-orientation-step-2)"></line>
+              <circle cx="180" cy="180" r="4.5" fill="#145c46" stroke="#fffaf2" stroke-width="2"></circle>
+              <circle cx="258" cy="180" r="4.5" fill="#d1495b" stroke="#fffaf2" stroke-width="2"></circle>
+              <circle cx="180" cy="258" r="4.5" fill="#2c7a55" stroke="#fffaf2" stroke-width="2"></circle>
+              <circle cx="180" cy="102" r="4.5" fill="#2c7a55" stroke="#fffaf2" stroke-width="2"></circle>
+              <text x="268" y="172" class="figure-vector-label red">b1</text>
+              <text x="188" y="274" class="figure-vector-label green">b2</text>
+              <text x="188" y="98" class="figure-vector-label green">b2</text>
+              <text x="340" y="184" class="figure-axis-label">x</text>
+              <text x="172" y="20" class="figure-axis-label">y</text>
+            </svg>
+          </figure>
+        </div>
+		<p>
+			The first reflection inverts the orientation of the space.
+			The second reflection restores it to the standard orientation.
+			More generally, suppose we transform a set of vectors so that they align with the standard basis.
+			If this requires an odd number of reflections, then the vectors have an inverted orientation.
+			If it requires an even number of reflections, they have the standard orientation.
+		</p>
+		<p>
+			Let's go back to our original example.
+			After orthogonalizing we have \(a_1 = (3, 1)\) and \(a_2^\perp = (-\frac{1}{2}, \frac{3}{2})\).
+			Obviously, this rectangle can be rotated to align with the positive x and y axes.
+			This is equivalent to 2 reflections, so the sign of the determinant is positive.
+			Since we have both magnitude and sign, we have \(det(A) = 5\).
+		</p>
+        <figure class="explainer-figure orientation-figure">
+          <svg viewBox="0 0 360 360" role="img" aria-labelledby="orthogonalized-vectors-title orthogonalized-vectors-desc">
+            <title id="orthogonalized-vectors-title">The vectors a1 and a2 perpendicular after orthogonalization</title>
+            <desc id="orthogonalized-vectors-desc">A four-quadrant coordinate plane showing the vectors a1 equals 3 comma 1 and a2 perpendicular equals negative one half comma three halves from the origin, with the shaded area labeled V(a1,a2).</desc>
+            <defs>
+              <marker id="arrow-red-ortho-vectors" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#d1495b"></path>
+              </marker>
+              <marker id="arrow-green-ortho-vectors" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2c7a55"></path>
+              </marker>
+            </defs>
+            <rect x="0" y="0" width="360" height="360" rx="24" fill="rgba(255,255,255,0.72)"></rect>
+            <g stroke="rgba(88,101,106,0.14)" stroke-width="1">
+              <line x1="24" y1="24" x2="24" y2="336"></line>
+              <line x1="102" y1="24" x2="102" y2="336"></line>
+              <line x1="180" y1="24" x2="180" y2="336"></line>
+              <line x1="258" y1="24" x2="258" y2="336"></line>
+              <line x1="336" y1="24" x2="336" y2="336"></line>
+              <line x1="24" y1="24" x2="336" y2="24"></line>
+              <line x1="24" y1="102" x2="336" y2="102"></line>
+              <line x1="24" y1="180" x2="336" y2="180"></line>
+              <line x1="24" y1="258" x2="336" y2="258"></line>
+              <line x1="24" y1="336" x2="336" y2="336"></line>
+            </g>
+            <g stroke="#58656a" stroke-width="2">
+              <line x1="24" y1="180" x2="336" y2="180"></line>
+              <line x1="180" y1="24" x2="180" y2="336"></line>
+            </g>
+            <polygon points="180,180 297,141 277.5,82.5 160.5,121.5" fill="rgba(20,92,70,0.12)" stroke="#145c46" stroke-width="3"></polygon>
+            <line x1="180" y1="180" x2="297" y2="141" stroke="#d1495b" stroke-width="4" marker-end="url(#arrow-red-ortho-vectors)"></line>
+            <line x1="180" y1="180" x2="160.5" y2="121.5" stroke="#2c7a55" stroke-width="4" marker-end="url(#arrow-green-ortho-vectors)"></line>
+            <g fill="#145c46" stroke="#fffaf2" stroke-width="2">
+              <circle cx="180" cy="180" r="4.5"></circle>
+              <circle cx="297" cy="141" r="4.5"></circle>
+              <circle cx="160.5" cy="121.5" r="4.5"></circle>
+              <circle cx="277.5" cy="82.5" r="4.5"></circle>
+            </g>
+            <text x="229" y="136" class="figure-area-label" text-anchor="middle">V(a1, a2)</text>
+            <text x="302" y="128" class="figure-vector-label red">a1</text>
+            <text x="136" y="112" class="figure-vector-label green">a2</text>
+            <text x="340" y="184" class="figure-axis-label">x</text>
+            <text x="172" y="20" class="figure-axis-label">y</text>
+          </svg>
+        </figure>
+		<p>
+			The <b>Householder transformation</b> generalizes the concept of reflection to higher dimensions.
+			The \(n \times n\) Householder matrix \(H\) represents a reflection in n-dimensional space about some hyperplane.
+			Within n-dimensional space, at most \(n\) reflections are needed to map the standard normal basis onto any orthonormal basis.
+			So we have an identity for some \(k \leq n\).
+			<div class="equation-variant equation-single">
+				$$
+				Q = H_1H_2 \cdots H_kI
+				$$
+			</div>
+		</p>
+		<p>
+			For details on how to compute the Householder reflection,
+			check out Professor Robert van de Geijn's brilliant lectures on
+			<a href="https://www.youtube.com/watch?v=6TIVIw4B5VA">YouTube</a>.
+		</p>		
+		<h3>Putting It All Together</h3>
+		<p>
+			For any \(n \times n\) invertible matrix \(A\), we can apply the Gram-Schmidt process to generate some matrix \(S\) with orthogonal column vectors.
+			We find the volume of the shape spanned by the column vectors of \(S\) by taking the product of the lengths of the column vectors.
+			<div class="equation-variant equation-single">
+				$$
+				V(S) = \prod_{i=1}^{n} ||s_i||
+				$$
+			</div>
+			Next, we normalize \(S\) to get some orthonormal matrix \(Q\).
+			We then decompose \(Q\) into \(k\) Householder matrices.
+			<div class="equation-variant equation-single">
+				$$
+				Q = H_1H_2 \cdots H_kI
+				$$
+			</div>
+			Given \(k\), we find the sign of the determinant.
+			<div class="equation-variant equation-single">
+				$$
+				sgn(Q) = (-1)^k
+				$$
+			</div>
+			Finally, we put volume and orientation together and get the determinant.
+			<div class="equation-variant equation-single">
+				$$
+				det(A) = sgn(Q) \cdot V(S)
+				$$
+			</div>
+			The animation in the top panel shows this computation in the 3-dimensional case.
+		</p>
       </article>
     </div>
   </section>
+  <footer class="site-footer">
+    <a href="https://www.linkedin.com/in/birju-patel-0506251b9/" target="_blank" rel="noopener noreferrer">Created by Birju Patel</a>
+  </footer>
 
   <script type="module" src="./app.js"></script>
 </body>
