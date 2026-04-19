@@ -407,10 +407,17 @@
 			The \(n \times n\) Householder matrix \(H\) represents a reflection in n-dimensional space about some hyperplane.
 			Within n-dimensional space, at most \(n\) reflections are needed to map the standard normal basis onto any orthonormal basis.
 			So we have an identity for some \(k \leq n\).
-			<div class="equation-variant equation-single">
-				$$
-				Q = H_1H_2 \cdots H_kI
-				$$
+			<div class="responsive-equation">
+				<div class="equation-variant equation-single">
+					$$
+					Q = H_1H_2 \cdots H_kI
+					$$
+				</div>
+				<div class="equation-variant equation-multiline">
+					$$
+					Q = H_1H_2 \cdots H_kI
+					$$
+				</div>
 			</div>
 		</p>
 		<p>
@@ -431,6 +438,11 @@
 				V(P) = \prod_{i=1}^{n} \|p_i\|
 				$$
 			</div>
+			<div class="equation-variant equation-multiline">
+				$$
+				V(P) = \prod_{i=1}^{n} \|p_i\|
+				$$
+			</div>
 		</div>
 		<p>
 			Next, we normalize \(P\) to get some orthonormal matrix \(Q\).
@@ -438,6 +450,11 @@
 		</p>
 		<div class="responsive-equation">
 			<div class="equation-variant equation-single">
+				$$
+				Q = H_1H_2 \cdots H_kI
+				$$
+			</div>
+			<div class="equation-variant equation-multiline">
 				$$
 				Q = H_1H_2 \cdots H_kI
 				$$
@@ -452,12 +469,22 @@
 				sgn(Q) = (-1)^k
 				$$
 			</div>
+			<div class="equation-variant equation-multiline">
+				$$
+				sgn(Q) = (-1)^k
+				$$
+			</div>
 		</div>
 		<p>
 			Finally, we put volume and orientation together and get the determinant.
 		</p>
 		<div class="responsive-equation">
 			<div class="equation-variant equation-single">
+				$$
+				det(A) = sgn(Q) \cdot V(P)
+				$$
+			</div>
+			<div class="equation-variant equation-multiline">
 				$$
 				det(A) = sgn(Q) \cdot V(P)
 				$$
