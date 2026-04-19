@@ -4,7 +4,6 @@ import {
   EPS,
   buildStepSequence,
   column,
-  determinant3,
   lerpMatrix,
   matricesClose,
   maxAbsEntry,
@@ -15,9 +14,9 @@ import {
 } from "./math-core.mjs";
 
 const EXAMPLE_MATRIX = [
-  [1, 7, -2],
-  [1, 7, -4],
-  [1, -8, 3]
+  [-1, 2, 1],
+  [1, 2, -1],
+  [1, -2, 4]
 ];
 
 const VECTOR_COLORS = [0xd1495b, 0x2c7a55, 0x2f6db5];

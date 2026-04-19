@@ -1,21 +1,40 @@
 # Determinant Visualizer
 #### Birju Patel
 
-## Web Version
+Determinant Visualizer is an interactive teaching tool for the determinant of a `3 x 3` matrix. It presents the determinant as:
 
-A static browser version now lives in [`docs/`](./docs). It ports the determinant walkthrough from PyVista to client-side JavaScript with Three.js, so it can be hosted on GitHub Pages without a Python server.
+- volume, computed by orthogonalizing the column vectors with Gram-Schmidt
+- orientation, determined by decomposing the orthogonal factor with Householder reflections
 
-The original Python / PyVista implementation now lives in [`misc/`](./misc).
+The current app is a static browser experience in [`docs/`](./docs), built with client-side JavaScript and Three.js for deployment on GitHub Pages. The original Python / PyVista prototype is preserved in [`misc/`](./misc).
 
-### Features
+## Live Site
 
-- User-editable 3 x 3 matrix input
-- Step forward and backward controls
-- Touch and mouse orbit controls for mobile and desktop
-- Gram-Schmidt volume steps
-- Householder mirror and reflection steps
+The production site will be hosted on GitHub Pages at:
 
-### Local Preview
+```text
+https://www.detviz.com/
+```
+
+## What The App Does
+
+- lets students enter a `3 x 3` matrix
+- visualizes the spanned parallelepiped in 3D
+- steps through Gram-Schmidt to show how determinant magnitude comes from volume
+- shows Householder mirror placements and reflections to explain determinant sign through orientation
+- supports step-by-step navigation, reset, and camera controls for desktop and mobile
+- handles singular matrices by showing the degenerate geometry and reporting determinant `0`
+
+## Project Structure
+
+- [`docs/`](./docs): static site served by GitHub Pages
+- [`docs/index.html`](./docs/index.html): page structure and explainer content
+- [`docs/app.js`](./docs/app.js): Three.js viewer and interaction logic
+- [`docs/math-core.mjs`](./docs/math-core.mjs): determinant, QR, Gram-Schmidt, and Householder math
+- [`scripts/check-release.mjs`](./scripts/check-release.mjs): release verification script
+- [`misc/`](./misc): legacy Python implementation and supporting files
+
+## Local Preview
 
 From the repository root:
 
@@ -23,9 +42,13 @@ From the repository root:
 python -m http.server 8000
 ```
 
-Then open `http://localhost:8000/docs/`.
+Then open:
 
-### Release Check
+```text
+http://localhost:8000/docs/
+```
+
+## Release Check
 
 Before publishing, run:
 
@@ -33,7 +56,7 @@ Before publishing, run:
 npm run check:release
 ```
 
-This checks:
+This verifies:
 
 - determinant and step generation for the example matrix
 - singular-matrix fallback behavior
@@ -41,60 +64,18 @@ This checks:
 - Householder reflection and mirror-plane normal logic
 - static page import wiring for Three.js and OrbitControls
 
-### GitHub Pages Deployment
+## Deployment
 
-1. Push this repository to GitHub.
-2. In GitHub, open `Settings -> Pages`.
-3. Set the source to `Deploy from a branch`.
-4. Select your main branch and the `/docs` folder.
-5. Save. GitHub Pages will publish the site automatically.
+This project is intended to be deployed as a static GitHub Pages site from the [`docs/`](./docs) directory, with `www.detviz.com` configured as the custom domain.
 
-After deployment, the site will be available at:
+## Legacy Python Prototype
 
-```text
-https://<your-github-username>.github.io/<your-repository-name>/
-```
+The Python version is not the primary deployment target, but it remains in the repository as the original prototype.
 
-### Low-Cost Server Fallback
-
-You should not need a server for the current feature set. If you later want Python-backed computation, logging, authentication, or saved user sessions, the lowest-friction cheap option is:
-
-- Frontend: keep the static `docs/` site on GitHub Pages
-- Backend: small FastAPI app on Render or Railway
-- Cost: typically free tier for light use, otherwise low single-digit to low double-digit USD per month depending on uptime and traffic
-
-Minimal backend approach:
-
-1. Keep the 3D viewer in the browser.
-2. Expose only JSON endpoints from FastAPI.
-3. Deploy the API separately on Render or Railway.
-4. Call the API from the static site with `fetch`.
-
-## Instructions
-
-Legacy local Python workflow:
-
-Install Python 3.9.13 from python.org.
-
-```
-C:\determinant_visualizer>python --version
-Python 3.9.13
-```
-
-Create virtual environment.
-
-```
-python -m venv .venv
-```
-
-Install dependencies.
-
-```
-python -m pip install -r misc/requirements.txt
-```
-
-Run the original PyVista viewer from `misc/`:
+To run it locally:
 
 ```bash
+python -m venv .venv
+python -m pip install -r misc/requirements.txt
 python misc/det_viz.py
 ```

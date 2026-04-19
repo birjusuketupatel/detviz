@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 360" role="img" aria-labelledby="vectors-title vectors-desc">
+<style>
+  .figure-vector-label,
+  .figure-area-label,
+  .figure-axis-label {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .figure-vector-label {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .figure-vector-label.red {
+    fill: #d1495b;
+  }
+
+  .figure-vector-label.green {
+    fill: #2c7a55;
+  }
+
+  .figure-area-label {
+    fill: #0c3f31;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .figure-axis-label {
+    fill: #58656a;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .figure-vertex-label {
+    fill: #58656a;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .slide-parallelogram {
+    fill: rgba(20, 92, 70, 0.08);
+    stroke: rgba(20, 92, 70, 0.55);
+    stroke-width: 2;
+  }
+
+  .slide-rectangle {
+    fill: rgba(91, 102, 112, 0.12);
+    stroke: rgba(91, 102, 112, 0.65);
+    stroke-width: 2;
+    stroke-dasharray: 8 6;
+  }
+
+  .slide-fixed-edge {
+    stroke: #2c7a55;
+    stroke-width: 5;
+  }
+
+  .slide-projection {
+    stroke: rgba(91, 102, 112, 0.7);
+    stroke-width: 3;
+  }
+
+  .slide-a2-original {
+    stroke: #2c7a55;
+    stroke-width: 4;
+    opacity: 0.35;
+  }
+
+  .slide-a2-ortho {
+    stroke: rgba(44, 122, 85, 0.92);
+    stroke-width: 4;
+  }
+
+  .slide-ac-original {
+    stroke: rgba(209, 73, 91, 0.35);
+    stroke-width: 4;
+  }
+
+  .slide-ac-ortho {
+    stroke: rgba(209, 73, 91, 0.92);
+    stroke-width: 4;
+  }
+
+  .slide-moving-side {
+    opacity: 0.92;
+  }
+
+  .slide-motion-label {
+    fill: #d1495b;
+  }
+
+  .slide-fixed-label,
+  .slide-a2-label {
+    fill: #2c7a55;
+  }
+
+  .slide-a2-ortho-label {
+    fill: rgba(44, 122, 85, 0.92);
+  }
+
+  .slide-ac-label {
+    fill: rgba(209, 73, 91, 0.5);
+  }
+
+  .slide-ac-ortho-label {
+    fill: rgba(209, 73, 91, 0.92);
+  }
+
+  .reflect-mirror-line {
+    stroke: rgba(173, 181, 189, 0.9);
+    stroke-width: 2;
+    stroke-dasharray: 9 7;
+  }
+</style>
+            <title id="vectors-title">Two column vectors drawn on a two-dimensional plane</title>
+            <desc id="vectors-desc">Coordinate plane showing the two column vectors a1 = (3, 1) and a2 = (1, 2) drawn from the origin.</desc>
+            <defs>
+              <marker id="arrow-red-vectors" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#d1495b"></path>
+              </marker>
+              <marker id="arrow-green-vectors" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2c7a55"></path>
+              </marker>
+            </defs>
+            <rect x="0" y="0" width="520" height="360" rx="24" fill="rgba(255,255,255,0.72)"></rect>
+            <g stroke="rgba(88,101,106,0.14)" stroke-width="1">
+              <line x1="70" y1="40" x2="70" y2="320"></line>
+              <line x1="130" y1="40" x2="130" y2="320"></line>
+              <line x1="190" y1="40" x2="190" y2="320"></line>
+              <line x1="250" y1="40" x2="250" y2="320"></line>
+              <line x1="310" y1="40" x2="310" y2="320"></line>
+              <line x1="370" y1="40" x2="370" y2="320"></line>
+              <line x1="430" y1="40" x2="430" y2="320"></line>
+              <line x1="40" y1="300" x2="470" y2="300"></line>
+              <line x1="40" y1="240" x2="470" y2="240"></line>
+              <line x1="40" y1="180" x2="470" y2="180"></line>
+              <line x1="40" y1="120" x2="470" y2="120"></line>
+              <line x1="40" y1="60" x2="470" y2="60"></line>
+            </g>
+            <g stroke="#58656a" stroke-width="2">
+              <line x1="40" y1="300" x2="470" y2="300"></line>
+              <line x1="70" y1="320" x2="70" y2="40"></line>
+            </g>
+            <line x1="70" y1="300" x2="280" y2="240" stroke="#d1495b" stroke-width="4" marker-end="url(#arrow-red-vectors)"></line>
+            <line x1="70" y1="300" x2="140" y2="180" stroke="#2c7a55" stroke-width="4" marker-end="url(#arrow-green-vectors)"></line>
+            <g fill="#145c46" stroke="#fffaf2" stroke-width="2">
+              <circle cx="70" cy="300" r="5"></circle>
+              <circle cx="140" cy="180" r="5"></circle>
+              <circle cx="280" cy="240" r="5"></circle>
+            </g>
+            <text x="295" y="240" class="figure-vector-label red">a1 = (3, 1)</text>
+            <text x="120" y="160" class="figure-vector-label green">a2 = (1, 2)</text>
+            <text x="84" y="314" class="figure-vertex-label">(0, 0)</text>
+            <text x="474" y="305" class="figure-axis-label">x</text>
+            <text x="62" y="34" class="figure-axis-label">y</text>
+          </svg>

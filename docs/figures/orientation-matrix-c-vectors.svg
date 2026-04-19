@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" role="img" aria-labelledby="orientation-b-title orientation-b-desc">
+<style>
+  .figure-vector-label,
+  .figure-area-label,
+  .figure-axis-label {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .figure-vector-label {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .figure-vector-label.red {
+    fill: #d1495b;
+  }
+
+  .figure-vector-label.green {
+    fill: #2c7a55;
+  }
+
+  .figure-area-label {
+    fill: #0c3f31;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .figure-axis-label {
+    fill: #58656a;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .figure-vertex-label {
+    fill: #58656a;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .slide-parallelogram {
+    fill: rgba(20, 92, 70, 0.08);
+    stroke: rgba(20, 92, 70, 0.55);
+    stroke-width: 2;
+  }
+
+  .slide-rectangle {
+    fill: rgba(91, 102, 112, 0.12);
+    stroke: rgba(91, 102, 112, 0.65);
+    stroke-width: 2;
+    stroke-dasharray: 8 6;
+  }
+
+  .slide-fixed-edge {
+    stroke: #2c7a55;
+    stroke-width: 5;
+  }
+
+  .slide-projection {
+    stroke: rgba(91, 102, 112, 0.7);
+    stroke-width: 3;
+  }
+
+  .slide-a2-original {
+    stroke: #2c7a55;
+    stroke-width: 4;
+    opacity: 0.35;
+  }
+
+  .slide-a2-ortho {
+    stroke: rgba(44, 122, 85, 0.92);
+    stroke-width: 4;
+  }
+
+  .slide-ac-original {
+    stroke: rgba(209, 73, 91, 0.35);
+    stroke-width: 4;
+  }
+
+  .slide-ac-ortho {
+    stroke: rgba(209, 73, 91, 0.92);
+    stroke-width: 4;
+  }
+
+  .slide-moving-side {
+    opacity: 0.92;
+  }
+
+  .slide-motion-label {
+    fill: #d1495b;
+  }
+
+  .slide-fixed-label,
+  .slide-a2-label {
+    fill: #2c7a55;
+  }
+
+  .slide-a2-ortho-label {
+    fill: rgba(44, 122, 85, 0.92);
+  }
+
+  .slide-ac-label {
+    fill: rgba(209, 73, 91, 0.5);
+  }
+
+  .slide-ac-ortho-label {
+    fill: rgba(209, 73, 91, 0.92);
+  }
+
+  .reflect-mirror-line {
+    stroke: rgba(173, 181, 189, 0.9);
+    stroke-width: 2;
+    stroke-dasharray: 9 7;
+  }
+</style>
+                <title id="orientation-b-title">Matrix C plotted on a two-dimensional plane</title>
+                <desc id="orientation-b-desc">Coordinate plane showing matrix C as vectors c1 pointing up and c2 pointing right from the origin.</desc>
+                <defs>
+                  <marker id="arrow-red-orientation-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#d1495b"></path>
+                  </marker>
+                  <marker id="arrow-green-orientation-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#2c7a55"></path>
+                  </marker>
+                </defs>
+                <rect x="0" y="0" width="360" height="360" rx="24" fill="rgba(255,255,255,0.72)"></rect>
+                <g stroke="rgba(88,101,106,0.14)" stroke-width="1">
+                  <line x1="24" y1="24" x2="24" y2="336"></line>
+                  <line x1="102" y1="24" x2="102" y2="336"></line>
+                  <line x1="180" y1="24" x2="180" y2="336"></line>
+                  <line x1="258" y1="24" x2="258" y2="336"></line>
+                  <line x1="336" y1="24" x2="336" y2="336"></line>
+                  <line x1="24" y1="24" x2="336" y2="24"></line>
+                  <line x1="24" y1="102" x2="336" y2="102"></line>
+                  <line x1="24" y1="180" x2="336" y2="180"></line>
+                  <line x1="24" y1="258" x2="336" y2="258"></line>
+                  <line x1="24" y1="336" x2="336" y2="336"></line>
+                </g>
+                <g stroke="#58656a" stroke-width="2">
+                  <line x1="24" y1="180" x2="336" y2="180"></line>
+                  <line x1="180" y1="24" x2="180" y2="336"></line>
+                </g>
+                <line x1="180" y1="180" x2="180" y2="102" stroke="#d1495b" stroke-width="4" marker-end="url(#arrow-red-orientation-b)"></line>
+                <line x1="180" y1="180" x2="258" y2="180" stroke="#2c7a55" stroke-width="4" marker-end="url(#arrow-green-orientation-b)"></line>
+                <circle cx="180" cy="180" r="4.5" fill="#145c46" stroke="#fffaf2" stroke-width="2"></circle>
+                <text x="190" y="98" class="figure-vector-label red">c1</text>
+                <text x="266" y="170" class="figure-vector-label green">c2</text>
+                <text x="340" y="184" class="figure-axis-label">x</text>
+                <text x="172" y="20" class="figure-axis-label">y</text>
+              </svg>
