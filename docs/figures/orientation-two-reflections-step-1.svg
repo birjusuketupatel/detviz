@@ -150,10 +150,6 @@
               <line x1="180" y1="180" x2="258" y2="180" stroke="#d1495b" stroke-width="4" marker-end="url(#arrow-red-orientation-step-1)"></line>
               <line x1="180" y1="180" x2="180" y2="258" stroke="#2c7a55" stroke-width="4" marker-end="url(#arrow-green-orientation-step-1)"></line>
               <circle cx="180" cy="180" r="4.5" fill="#145c46" stroke="#fffaf2" stroke-width="2"></circle>
-              <circle cx="180" cy="102" r="4.5" fill="#d1495b" stroke="#fffaf2" stroke-width="2"></circle>
-              <circle cx="102" cy="180" r="4.5" fill="#2c7a55" stroke="#fffaf2" stroke-width="2"></circle>
-              <circle cx="258" cy="180" r="4.5" fill="#d1495b" stroke="#fffaf2" stroke-width="2"></circle>
-              <circle cx="180" cy="258" r="4.5" fill="#2c7a55" stroke="#fffaf2" stroke-width="2"></circle>
               <text x="190" y="98" class="figure-vector-label red">b1</text>
               <text x="72" y="170" class="figure-vector-label green">b2</text>
               <text x="268" y="172" class="figure-vector-label red">b1</text>
