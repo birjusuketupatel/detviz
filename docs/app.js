@@ -479,7 +479,7 @@ const appState = {
   determinant: 0,
   currentIndex: 0,
   axisLength: 4,
-  framePoints: [[0, 0, 0]],
+  isHomeView: true,
   rankDeficient: false,
   animationFrame: null,
   currentMatrix: zeroMatrix(),
@@ -597,37 +597,70 @@ function resetCamera() {
   const horizontalFov = 2 * Math.atan(Math.tan(verticalFov / 2) * camera.aspect);
   const verticalTan = Math.tan(verticalFov / 2);
   const horizontalTan = Math.tan(horizontalFov / 2);
-  const padding = 1.08;
+  const isPhoneLayout = window.matchMedia("(max-width: 640px)").matches;
+  const horizontalPadding = isPhoneLayout ? 1.03 : 1.08;
+  const verticalPadding = isPhoneLayout ? 1.02 : 1.08;
   const axisOffset = appState.axisLength * 1.04;
-  const framePoints = appState.framePoints.concat([
+  const framePoints = parallelepipedVertices(appState.currentMatrix).concat([
+    [0, 0, 0],
+    [-axisOffset, 0, 0],
     [axisOffset, 0, 0],
+    [0, -axisOffset, 0],
     [0, axisOffset, 0],
+    [0, 0, -axisOffset],
     [0, 0, axisOffset]
   ]);
 
-  let distance = 1;
+  let minRight = Infinity;
+  let maxRight = -Infinity;
+  let minUp = Infinity;
+  let maxUp = -Infinity;
+  let minDepth = Infinity;
+  let maxDepth = -Infinity;
+
   framePoints.forEach((point) => {
     const vertex = new THREE.Vector3(...point);
-    const horizontalOffset = Math.abs(vertex.dot(right)) * padding;
-    const verticalOffset = Math.abs(vertex.dot(up)) * padding;
-    const depthOffset = vertex.dot(viewDirection);
+    const rightCoord = vertex.dot(right);
+    const upCoord = vertex.dot(up);
+    const depthCoord = vertex.dot(viewDirection);
 
-    distance = Math.max(
-      distance,
-      depthOffset + (horizontalOffset / Math.max(horizontalTan, 1e-6)),
-      depthOffset + (verticalOffset / Math.max(verticalTan, 1e-6))
-    );
+    minRight = Math.min(minRight, rightCoord);
+    maxRight = Math.max(maxRight, rightCoord);
+    minUp = Math.min(minUp, upCoord);
+    maxUp = Math.max(maxUp, upCoord);
+    minDepth = Math.min(minDepth, depthCoord);
+    maxDepth = Math.max(maxDepth, depthCoord);
   });
 
-  camera.position.copy(viewDirection.multiplyScalar(distance));
-  controls.target.set(0, 0, 0);
-  camera.near = Math.max(0.1, distance * 0.2);
-  camera.far = Math.max(200, distance * 4);
+  const centerRight = (minRight + maxRight) / 2;
+  const centerUp = (minUp + maxUp) / 2;
+  const centerDepth = (minDepth + maxDepth) / 2;
+  const halfWidth = ((maxRight - minRight) / 2) * horizontalPadding;
+  const halfHeight = ((maxUp - minUp) / 2) * verticalPadding;
+  const frontDepth = maxDepth - centerDepth;
+  const backDepth = centerDepth - minDepth;
+  const distance = Math.max(
+    1,
+    frontDepth + (halfWidth / Math.max(horizontalTan, 1e-6)),
+    frontDepth + (halfHeight / Math.max(verticalTan, 1e-6))
+  );
+
+  const target = new THREE.Vector3()
+    .addScaledVector(right, centerRight)
+    .addScaledVector(up, centerUp)
+    .addScaledVector(viewDirection, centerDepth);
+
+  camera.position.copy(target).addScaledVector(viewDirection, distance);
+  controls.target.copy(target);
+  camera.near = Math.max(0.1, distance - frontDepth - Math.max(halfWidth, halfHeight) * 1.5);
+  camera.far = Math.max(200, distance + backDepth + Math.max(halfWidth, halfHeight) * 3);
   camera.updateProjectionMatrix();
   controls.update();
+  appState.isHomeView = true;
 }
 
 function zoomCamera(scaleFactor) {
+  appState.isHomeView = false;
   if (appState.zoomAnimationFrame !== null) {
     cancelAnimationFrame(appState.zoomAnimationFrame);
     appState.zoomAnimationFrame = null;
@@ -665,7 +698,6 @@ function loadMatrix(A) {
   appState.rankDeficient = rankDeficient;
 
   let extent = 1;
-  const framePoints = [[0, 0, 0]];
   steps.forEach((step) => {
     const vertices = parallelepipedVertices(step.A);
     vertices.forEach((vertex) => {
@@ -676,10 +708,8 @@ function loadMatrix(A) {
         Math.abs(vertex[2])
       );
     });
-    framePoints.push(...vertices);
   });
   appState.axisLength = Math.max(1.8, extent * 1.1);
-  appState.framePoints = framePoints;
 
   updateAxisLength(appState.axisLength);
   resetCamera();
@@ -693,6 +723,10 @@ function resizeRenderer() {
   renderer.setSize(width, height, false);
   camera.aspect = width / height;
   camera.updateProjectionMatrix();
+
+  if (appState.isHomeView && appState.steps.length > 0) {
+    resetCamera();
+  }
 }
 
 function updateProjectedLabels() {
@@ -774,6 +808,10 @@ ui.resetButton.addEventListener("click", () => {
 ui.zoomInButton.addEventListener("click", () => zoomCamera(0.85));
 ui.zoomOutButton.addEventListener("click", () => zoomCamera(1.18));
 ui.homeButton.addEventListener("click", () => resetCamera());
+
+controls.addEventListener("start", () => {
+  appState.isHomeView = false;
+});
 
 window.addEventListener("keydown", (event) => {
   if (event.key === "ArrowLeft") {

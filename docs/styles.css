@@ -35,6 +35,7 @@ body {
   grid-template-areas:
     "controls viewer"
     "metrics viewer";
+  align-items: start;
   gap: 16px;
   padding: 14px;
   min-height: 100vh;
@@ -393,12 +394,14 @@ body {
   grid-area: controls;
   display: flex;
   flex-direction: column;
+  align-self: start;
   gap: 12px;
   padding: 16px;
 }
 
 .metrics-panel {
   grid-area: metrics;
+  align-self: start;
   padding: 16px;
 }
 
@@ -655,6 +658,7 @@ button:disabled {
   grid-area: viewer;
   display: flex;
   flex-direction: column;
+  align-self: stretch;
   min-height: calc(100vh - 28px);
   overflow: hidden;
 }
@@ -777,11 +781,15 @@ button:disabled {
       "viewer"
       "metrics";
     height: auto;
-    min-height: 100vh;
+    min-height: auto;
+  }
+
+  .viewer-panel {
+    min-height: 0;
   }
 
   .viewer {
-    min-height: 460px;
+    min-height: clamp(260px, 40vh, 360px);
     padding: 0;
   }
 
@@ -791,6 +799,14 @@ button:disabled {
 }
 
 @media (max-width: 1000px) and (min-width: 641px) {
+  .viewer-panel {
+    min-height: clamp(320px, 52vh, 440px);
+  }
+
+  .viewer {
+    min-height: clamp(320px, 52vh, 440px);
+  }
+
   .explainer-card {
     padding-left: 18px;
     padding-right: 18px;
@@ -846,7 +862,11 @@ button:disabled {
   }
 
   .viewer {
-    min-height: 300px;
+    min-height: clamp(264px, 40.8vh, 336px);
+  }
+
+  .viewer-panel {
+    min-height: 0;
   }
 
   .explainer-shell {
